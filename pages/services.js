@@ -1,31 +1,28 @@
-import React, { Component } from 'react';
-import Navbar from '../components/Layout/Navbar';
-import PageHeader from '../components/Common/PageHeader';
-import ServicesOverview from '../components/ServicesTwo/ServicesOverview';
-import OurServices from '../components/ServicesTwo/OurServices';
-import Footer from '../components/Layout/Footer';
+import React, { Component } from "react";
+import Navbar from "../components/Layout/Navbar";
+import PageHeader from "../components/Common/PageHeader";
+import ServicesOverview from "../components/HomeFive/ServicesOverview";
+import Footer from "../components/Layout/Footer";
 
 class Services2 extends Component {
-    render() {
-        return (
-            <>
-                <Navbar />
+  render() {
+    return (
+      <>
+        <Navbar />
 
-                <PageHeader 
-                    pageTitle="IT Services" 
-                    breadcrumbTextOne="Home" 
-                    breadcrumbUrl="/" 
-                    breadcrumbTextTwo="IT Services" 
-                />
+        <PageHeader
+          pageTitle="Our Services"
+          breadcrumbTextOne="Home"
+          breadcrumbUrl="/"
+          breadcrumbTextTwo="Our Services"
+        />
 
-                <ServicesOverview />
+        <ServicesOverview />
 
-                <OurServices />
-                
-                <Footer />
-            </>
-        );
-    }
+        <Footer />
+      </>
+    );
+  }
 }
 
 export default Services2;

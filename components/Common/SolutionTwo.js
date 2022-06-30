@@ -20,8 +20,8 @@ class SolutionTwo extends Component {
                         <div className="row align-items-center">
                             <div className="col-lg-7 col-md-12">
                                 <div className="solution-content">
-                                    <h2>Why Choose us to Watch this Video Know More!</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                    <h2>Why Choose us</h2>
+                                    <p>We help businesses elevate their value through custom software development, product design, QA and consultancy services.</p>
 
                                     <Link href="/contact">
                                         <a className="default-btn">Contact Us <span></span></a>
@@ -47,7 +47,7 @@ class SolutionTwo extends Component {
                 <ModalVideo 
                     channel='youtube' 
                     isOpen={this.state.isOpen} 
-                    videoId='szuchBiLrEM' 
+                    videoId='X2uCZ8qXJKw' 
                     onClose={() => this.setState({isOpen: false})} 
                 />
             </>
