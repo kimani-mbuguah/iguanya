@@ -22,7 +22,7 @@ class OurServices extends Component {
                   <i className="bx bxs-badge-check check-icon"></i>
                 </div>
                 <h3>
-                  <Link href="/service-details">
+                  <Link href="/it-consultancy">
                     <a>IT Consultancy</a>
                   </Link>
                 </h3>
@@ -79,7 +79,7 @@ class OurServices extends Component {
                   <i className="bx bxs-badge-check check-icon"></i>
                 </div>
                 <h3>
-                  <Link href="/service-details">
+                  <Link href="/app-development">
                     <a>Mobile App Development</a>
                   </Link>
                 </h3>
@@ -98,14 +98,14 @@ class OurServices extends Component {
                   <i className="bx bxs-badge-check check-icon"></i>
                 </div>
                 <h3>
-                  <Link href="/service-details">
-                    <a>eCommerce Development</a>
+                  <Link href="/blockchain">
+                    <a>Blockchain Consulting and Development</a>
                   </Link>
                 </h3>
                 <p>
-                  We offer custom ecommerce development solutions for businesses
-                  in every industry helping our clients to create premium
-                  ecommerce experience to demanding modern consumers.
+                  Solutions for businesses to approach commerce, trading, supply
+                  chain and identity management through transparency and
+                  security, powered by blockchain and smart contracts.
                 </p>
               </div>
             </div>
@@ -117,14 +117,15 @@ class OurServices extends Component {
                   <i className="bx bxs-badge-check check-icon"></i>
                 </div>
                 <h3>
-                  <Link href="/service-details">
-                    <a>IT Solutions</a>
+                  <Link href="/robotic-process-automation">
+                    <a>Robotic Process Automation</a>
                   </Link>
                 </h3>
                 <p>
-                  Our business IT solutions will assist you drive success from
-                  your IT software or hardware. We provide end-to-end IT
-                  solutions, consulting services, and more for your business.{" "}
+                  We support you in identifying processes for robotization and
+                  developing effective automation solutions. We perform business
+                  analyzes, prepare documentation and present recommendations
+                  for further activities.
                 </p>
               </div>
             </div>
