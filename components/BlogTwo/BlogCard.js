@@ -1,336 +1,126 @@
-import React, { Component } from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import imageUrlBuilder from "@sanity/image-url";
+import SanityBlockContent from "@sanity/block-content-to-react";
+import ReactPaginate from "react-paginate";
 
-class BlogCard extends Component {
-    render() {
-        return (
-            <>
-                <div className="row">
-                    <div className="col-lg-6 col-md-6">
-                        <div className="single-blog-post">
-                            <div className="post-image">
-                                <Link href="/blog-details">
-                                    <a>
-                                        <img src="/images/blog-image/blog-image1.jpg" alt="image" />
-                                    </a>
-                                </Link>
-                            </div>
-                            <div className="post-content">
-                                <div className="post-meta">
-                                    <ul>
-                                        <li>
-                                            By: 
-                                            <Link href="/blog">
-                                                <a>Sarah Taylor</a>
-                                            </Link>
-                                        </li>
-                                        <li>June 24, 2019</li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <Link href="/blog-details">
-                                        <a>How To Boost Your Digital Marketing Agency</a>
-                                    </Link>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, constetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+import moment from "moment";
+const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
-                                <Link href="/blog-details">
-                                    <a className="read-more-btn">
-                                        Read More <i className="flaticon-right-arrow"></i>
-                                    </a>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
+function BlogCard({ posts }) {
+  const [mappedPosts, setMappedPosts] = useState([]);
 
-                    <div className="col-lg-6 col-md-6">
-                        <div className="single-blog-post">
-                            <div className="post-image">
-                                <Link href="/blog-details">
-                                    <a>
-                                        <img src="/images/blog-image/blog-image2.jpg" alt="image" />
-                                    </a>
-                                </Link>
-                            </div>
-                            <div className="post-content">
-                                <div className="post-meta">
-                                    <ul>
-                                        <li>By: 
-                                            <Link href="/blog">
-                                                <a>James Anderson</a>
-                                            </Link>
-                                        </li>
-                                        <li>June 26, 2019</li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <Link href="/blog-details">
-                                        <a>The Rise Of Smarketing And Why You Need It</a>
-                                    </Link>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, constetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+  const [pageCount, setPageCount] = useState(1);
+  // Here we use item offsets; we could also use page offsets
+  // following the API or data you're working with.
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 4;
+  const endOffset = itemOffset + itemsPerPage;
+  useEffect(() => {
+    if (posts.length > 0) {
+      const imgBuilder = imageUrlBuilder({
+        projectId: "zs1hmjkw",
+        dataset: "production",
+      });
 
-                                <Link href="/blog-details">
-                                    <a className="read-more-btn">
-                                        Read More <i className="flaticon-right-arrow"></i>
-                                    </a>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
+      setMappedPosts(
+        posts.map((p) => {
+          const publishedAtObj = new Date(p.publishedAt);
+          const momentObj = moment(publishedAtObj);
 
-                    <div className="col-lg-6 col-md-6">
-                        <div className="single-blog-post">
-                            <div className="post-image">
-                                <Link href="/blog-details">
-                                    <a>
-                                        <img src="/images/blog-image/blog-image3.jpg" alt="image" />
-                                    </a>
-                                </Link>
-                            </div>
-                            <div className="post-content">
-                                <div className="post-meta">
-                                    <ul>
-                                        <li>
-                                            By: 
-                                            <Link href="/blog">
-                                                <a>Steven Smith</a>
-                                            </Link>
-                                        </li>
-                                        <li>June 25, 2019</li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <Link href="/blog-details">
-                                        <a>How To Use Music To Boost Your Business</a>
-                                    </Link>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, constetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-
-                                <Link href="/blog-details">
-                                    <a className="read-more-btn">
-                                        Read More <i className="flaticon-right-arrow"></i>
-                                    </a>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-lg-6 col-md-6">
-                        <div className="single-blog-post">
-                            <div className="post-image">
-                                <Link href="/blog-details">
-                                    <a>
-                                        <img src="/images/blog-image/blog-image4.jpg" alt="image" />
-                                    </a>
-                                </Link>
-                            </div>
-                            <div className="post-content">
-                                <div className="post-meta">
-                                    <ul>
-                                        <li>
-                                            By: 
-                                            <Link href="/blog">
-                                                <a>Sarah Taylor</a>
-                                            </Link>
-                                        </li>
-                                        <li>June 24, 2019</li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <Link href="/blog-details">
-                                        <a>Creative solutions to improve your business!</a>
-                                    </Link>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, constetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-
-                                <Link href="/blog-details">
-                                    <a className="read-more-btn">
-                                        Read More <i className="flaticon-right-arrow"></i>
-                                    </a>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div className="col-lg-6 col-md-6">
-                        <div className="single-blog-post">
-                            <div className="post-image">
-                                <Link href="/blog-details">
-                                    <a>
-                                        <img src="/images/blog-image/blog-image5.jpg" alt="image" />
-                                    </a>
-                                </Link>
-                            </div>
-                            <div className="post-content">
-                                <div className="post-meta">
-                                    <ul>
-                                        <li>
-                                            By: 
-                                            <Link href="/blog">
-                                                <a>James Anderson</a>
-                                            </Link>
-                                        </li>
-                                        <li>June 26, 2019</li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <Link href="/blog-details">
-                                        <a>Finding the human in technology</a>
-                                    </Link>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, constetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-
-                                <Link href="/blog-details">
-                                    <a className="read-more-btn">
-                                        Read More <i className="flaticon-right-arrow"></i>
-                                    </a>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-lg-6 col-md-6">
-                        <div className="single-blog-post">
-                            <div className="post-image">
-                                <Link href="/blog-details">
-                                    <a>
-                                        <img src="/images/blog-image/blog-image6.jpg" alt="image" />
-                                    </a>
-                                </Link>
-                            </div>
-                            <div className="post-content">
-                                <div className="post-meta">
-                                    <ul>
-                                        <li>
-                                            By: 
-                                            <Link href="/blog">
-                                                <a>Steven Smith</a>
-                                            </Link>
-                                        </li>
-                                        <li>June 25, 2019</li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <Link href="/blog-details">
-                                        <a>Ideas people want to spend time with</a>
-                                    </Link>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, constetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-
-                                <Link href="/blog-details">
-                                    <a className="read-more-btn">
-                                        Read More <i className="flaticon-right-arrow"></i>
-                                    </a>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-lg-6 col-md-6">
-                        <div className="single-blog-post">
-                            <div className="post-image">
-                                <Link href="/blog-details">
-                                    <a>
-                                        <img src="/images/blog-image/blog-image7.jpg" alt="image" />
-                                    </a>
-                                </Link>
-                            </div>
-                            <div className="post-content">
-                                <div className="post-meta">
-                                    <ul>
-                                        <li>
-                                            By: 
-                                            <Link href="/blog">
-                                                <a>Sarah Taylor</a>
-                                            </Link>
-                                        </li>
-                                        <li>June 24, 2019</li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <Link href="/blog-details">
-                                        <a>Ideas people want to spend time with</a>
-                                    </Link>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, constetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-
-                                <Link href="/blog-details">
-                                    <a className="read-more-btn">
-                                        Read More <i className="flaticon-right-arrow"></i>
-                                    </a>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-lg-6 col-md-6">
-                        <div className="single-blog-post">
-                            <div className="post-image">
-                                <Link href="/blog-details">
-                                    <a>
-                                        <img src="/images/blog-image/blog-image8.jpg" alt="image" />
-                                    </a>
-                                </Link>
-                            </div>
-                            <div className="post-content">
-                                <div className="post-meta">
-                                    <ul>
-                                        <li>
-                                            By: 
-                                            <Link href="/blog">
-                                                <a>James Anderson</a>
-                                            </Link>
-                                        </li>
-                                        <li>June 26, 2019</li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <Link href="/blog-details">
-                                        <a>Ideas people want to spend time with</a>
-                                    </Link>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, constetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-
-                                <Link href="/blog-details">
-                                    <a className="read-more-btn">
-                                        Read More <i className="flaticon-right-arrow"></i>
-                                    </a>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Pagination  */}
-                    <div className="col-lg-12 col-md-12">
-                        <div className="pagination-area">
-                            <Link href="#">
-                                <a className="prev page-numbers">
-                                    <i className="fas fa-angle-double-left"></i>
-                                </a>
-                            </Link>
-                            <Link href="#">
-                                <a className="page-numbers">1</a>
-                            </Link>
-                            <span className="page-numbers current" aria-current="page">2</span>
-                            <Link href="#">
-                                <a  className="page-numbers">3</a>
-                            </Link>
-                            <Link href="#">
-                                <a className="page-numbers">4</a>
-                            </Link>
-                            <Link href="#">
-                                <a className="next page-numbers">
-                                    <i className="fas fa-angle-double-right"></i>
-                                </a>
-                            </Link>
-                        </div>
-                    </div>
-                    {/* End Pagination  */}
-                </div>
-            </>
-        );
+          return {
+            ...p,
+            mainImage: imgBuilder.image(p.mainImage).width(500).height(250),
+            date: momentObj.format("MMMM Do YYYY, h:mm:ss a"),
+          };
+        })
+        //.slice(itemOffset, endOffset)
+      );
+      setPageCount(Math.ceil(items.length / itemsPerPage));
+    } else {
+      setMappedPosts([]);
     }
+  }, [posts, itemOffset, itemsPerPage]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % mappedPosts.length;
+    setItemOffset(newOffset);
+  };
+
+  return (
+    <>
+      <div className="row">
+        {mappedPosts.length > 0
+          ? mappedPosts.map((p, index) => (
+              <div key={index} className="col-lg-6 col-md-6">
+                <div className="single-blog-post">
+                  <div className="post-image">
+                    <Link href={`/blog-details/${p.slug.current}`}>
+                      <a>
+                        <img src={p.mainImage} alt="image" />
+                      </a>
+                    </Link>
+                  </div>
+                  <div className="post-content">
+                    <div className="post-meta">
+                      <ul>
+                        <li>
+                          By:
+                          <Link href={`/blog-details/${p.slug.current}`}>
+                            <a>{p.author}</a>
+                          </Link>
+                        </li>
+                        <li>{p.date}</li>
+                      </ul>
+                    </div>
+                    <h3>
+                      <Link href={`/blog-details/${p.slug.current}`}>
+                        <a>
+                          <h3>{p.title}</h3>
+                        </a>
+                      </Link>
+                    </h3>
+                    <SanityBlockContent
+                      projectId="zs1hmjkw"
+                      dataset="production"
+                      blocks={p.excerpt}
+                    />
+
+                    <Link href={`/blog-details/${p.slug.current}`}>
+                      <a className="read-more-btn">
+                        Read More <i className="flaticon-right-arrow"></i>
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))
+          : ""}
+
+        {/* Pagination  */}
+
+        {mappedPosts.length > 0 ? (
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel={<i className="fas fa-angle-double-right"></i>}
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={2}
+            pageCount={pageCount}
+            previousLabel={<i className="fas fa-angle-double-left"></i>}
+            renderOnZeroPageCount={null}
+            containerClassName="pagination-area"
+            pageClassName="page-numbers"
+            activeClassName="page-numbers current"
+            previousClassName="prev page-numbers"
+            nextClassName="next page-numbers"
+          />
+        ) : (
+          ""
+        )}
+        {/* End Pagination  */}
+      </div>
+    </>
+  );
 }
 
 export default BlogCard;
