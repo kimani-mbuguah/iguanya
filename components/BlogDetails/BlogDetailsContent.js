@@ -4,31 +4,95 @@ import sanityClient from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
 import SanityBlockContent from "@sanity/block-content-to-react";
 import moment from "moment";
+import { ToastContainer, toast } from "react-toastify";
 import BlogSideBar from "/components/Blog/BlogSideBar";
 
 function BlogDetailsContent({ details }) {
+  const initialFormData = Object.freeze({
+    name: "",
+    email: "",
+    comment: "",
+  });
+
+  const [formData, updateFormData] = React.useState(initialFormData);
   const [publishDate, setPublishDate] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     const client = sanityClient({
       projectId: "zs1hmjkw",
       dataset: "production",
       useCdn: true,
     });
-
     const builder = imageUrlBuilder(client);
-
     setImageUrl(builder.image(details.image));
-
     const publishedAtObj = new Date(details.publishedAt);
     const momentObj = moment(publishedAtObj);
     setPublishDate(momentObj.format("MMMM Do YYYY, h:mm:ss a"));
   }, [details.image]);
 
+  const handleChange = (e) => {
+    updateFormData({
+      ...formData,
+      [e.target.name]: e.target.value.trim(),
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const client = sanityClient({
+      projectId: "zs1hmjkw",
+      dataset: "production",
+      token:
+        "skvD7c54B7o2hKpNtt8edriLQxnXJVfIkdADxojhbU7PIgmUck7PLZVyF6X9LHWRjjYsVXpAPTdAvOGAy1VMUD7kDsMNWq94Ogg9ZdI2KEPZhQZqA8GXrWPRWsn5VikMYBOciQnnRGBeGtKlTEf22jb03AuccZodinxjJMG0AA6MIGCFIfFZ",
+      useCdn: false,
+    });
+
+    const comment = {
+      _type: "comment",
+      post: {
+        _type: "reference",
+        _ref: details._id,
+      },
+      name: formData.name,
+      email: formData.email,
+      comment: formData.comment,
+    };
+
+    await client
+      .create(comment)
+      .then((res) => {
+        console.log(res);
+        setIsSubmitting(false);
+        toast.success("Comment submitted successfully.", {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      })
+      .catch((err) => {
+        setIsSubmitting(false);
+        toast.success("Comment submission failed.", {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      });
+  };
   return (
     <>
       <div className="blog-area blog-ptb-100">
         <div className="container">
+          <ToastContainer />
+
           <div className="row">
             <div className="col-lg-8 col-md-12">
               <div className="blog-details-desc">
@@ -113,209 +177,48 @@ function BlogDetailsContent({ details }) {
                   </div>
                 </div>
 
-                <div className="post-navigation">
-                  <div className="navigation-links">
-                    <div className="nav-previous">
-                      <Link href="#">
-                        <a>
-                          <i className="flaticon-left-chevron"></i> Prev Post
-                        </a>
-                      </Link>
-                    </div>
-                    <div className="nav-next">
-                      <Link href="#">
-                        <a>
-                          Next Post <i className="flaticon-right-chevron"></i>
-                        </a>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-
                 <div className="comments-area">
-                  <h3 className="comments-title">2 Comments:</h3>
+                  <h3 className="comments-title">
+                    {details.comments.length == 0 || details.comments.length > 1
+                      ? `${details.comments.length} Comments`
+                      : `${details.comments.length} Comment`}
+                  </h3>
 
                   <ol className="comment-list">
-                    <li className="comment">
-                      <article className="comment-body">
-                        <footer className="comment-meta">
-                          <div className="comment-author vcard">
-                            <img
-                              src="/images/client-image/client1.jpg"
-                              className="avatar"
-                              alt="image"
-                            />
-                            <b className="fn">John Jones</b>
-                            <span className="says">says:</span>
-                          </div>
-                          <div className="comment-metadata">
-                            April 24, 2019 at 10:59 am
-                          </div>
-                        </footer>
-
-                        <div className="comment-content">
-                          <p>
-                            Lorem Ipsum has been the industry’s standard dummy
-                            text ever since the 1500s, when an unknown printer
-                            took a galley of type and scrambled it to make a
-                            type specimen book.
-                          </p>
-                        </div>
-
-                        <div className="reply">
-                          <Link href="#">
-                            <a className="comment-reply-link">Reply</a>
-                          </Link>
-                        </div>
-                      </article>
-
-                      <ol className="children">
-                        <li className="comment">
-                          <article className="comment-body">
-                            <footer className="comment-meta">
-                              <div className="comment-author vcard">
-                                <img
-                                  src="/images/client-image/client2.jpg"
-                                  className="avatar"
-                                  alt="image"
-                                />
-                                <b className="fn">Steven Smith</b>
-                                <span className="says">says:</span>
-                              </div>
-
-                              <div className="comment-metadata">
-                                April 24, 2019 at 10:59 am
-                              </div>
-                            </footer>
-
-                            <div className="comment-content">
-                              <p>
-                                Lorem Ipsum has been the industry’s standard
-                                dummy text ever since the 1500s, when an unknown
-                                printer took a galley of type and scrambled it
-                                to make a type specimen book.
-                              </p>
-                            </div>
-
-                            <div className="reply">
-                              <Link href="#">
-                                <a className="comment-reply-link">Reply</a>
-                              </Link>
-                            </div>
-                          </article>
-                        </li>
-
-                        <ol className="children">
-                          <li className="comment">
+                    {details.comments.length > 0
+                      ? details.comments.map((comment, index) => (
+                          <li className="comment" key={index}>
                             <article className="comment-body">
                               <footer className="comment-meta">
                                 <div className="comment-author vcard">
                                   <img
-                                    src="/images/client-image/client3.jpg"
+                                    src="/images/client-image/client2.jpg"
                                     className="avatar"
                                     alt="image"
                                   />
-                                  <b className="fn">Sarah Taylor</b>
+                                  <b className="fn">{comment.name}</b>
                                   <span className="says">says:</span>
                                 </div>
                                 <div className="comment-metadata">
-                                  April 24, 2019 at 10:59 am
+                                  {moment(new Date(comment._createdAt)).format(
+                                    "MMMM Do YYYY, h:mm:ss a"
+                                  )}
                                 </div>
                               </footer>
+
                               <div className="comment-content">
-                                <p>
-                                  Lorem Ipsum has been the industry’s standard
-                                  dummy text ever since the 1500s, when an
-                                  unknown printer took a galley of type and
-                                  scrambled it to make a type specimen book.
-                                </p>
-                              </div>
-                              <div className="reply">
-                                <Link href="#">
-                                  <a className="comment-reply-link">Reply</a>
-                                </Link>
+                                <p>{comment.comment}</p>
                               </div>
                             </article>
                           </li>
-                        </ol>
-                      </ol>
-                    </li>
-
-                    <li className="comment">
-                      <article className="comment-body">
-                        <footer className="comment-meta">
-                          <div className="comment-author vcard">
-                            <img
-                              src="/images/client-image/client2.jpg"
-                              className="avatar"
-                              alt="image"
-                            />
-                            <b className="fn">John Doe</b>
-                            <span className="says">says:</span>
-                          </div>
-                          <div className="comment-metadata">
-                            April 24, 2019 at 10:59 am
-                          </div>
-                        </footer>
-
-                        <div className="comment-content">
-                          <p>
-                            Lorem Ipsum has been the industry’s standard dummy
-                            text ever since the 1500s, when an unknown printer
-                            took a galley of type and scrambled it to make a
-                            type specimen book.
-                          </p>
-                        </div>
-
-                        <div className="reply">
-                          <Link href="#">
-                            <a className="comment-reply-link">Reply</a>
-                          </Link>
-                        </div>
-                      </article>
-
-                      <ol className="children">
-                        <li className="comment">
-                          <article className="comment-body">
-                            <footer className="comment-meta">
-                              <div className="comment-author vcard">
-                                <img
-                                  src="/images/client-image/client3.jpg"
-                                  className="avatar"
-                                  alt="image"
-                                />
-                                <b className="fn">James Anderson</b>
-                                <span className="says">says:</span>
-                              </div>
-                              <div className="comment-metadata">
-                                April 24, 2019 at 10:59 am
-                              </div>
-                            </footer>
-
-                            <div className="comment-content">
-                              <p>
-                                Lorem Ipsum has been the industry’s standard
-                                dummy text ever since the 1500s, when an unknown
-                                printer took a galley of type and scrambled it
-                                to make a type specimen book.
-                              </p>
-                            </div>
-
-                            <div className="reply">
-                              <Link href="#">
-                                <a className="comment-reply-link">Reply</a>
-                              </Link>
-                            </div>
-                          </article>
-                        </li>
-                      </ol>
-                    </li>
+                        ))
+                      : ""}
                   </ol>
 
                   <div className="comment-respond">
                     <h3 className="comment-reply-title">Leave a Reply</h3>
 
-                    <form className="comment-form">
+                    <form className="comment-form" onSubmit={handleSubmit}>
                       <p className="comment-notes">
                         <span id="email-notes">
                           Your email address will not be published.
@@ -323,41 +226,37 @@ function BlogDetailsContent({ details }) {
                         Required fields are marked
                         <span className="required">*</span>
                       </p>
+
+                      <p className="comment-form-author">
+                        <label>
+                          Name <span className="required">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          onChange={handleChange}
+                        />
+                      </p>
+                      <p className="comment-form-email">
+                        <label>
+                          Email <span className="required">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          onChange={handleChange}
+                        />
+                      </p>
                       <p className="comment-form-comment">
                         <label>Comment</label>
                         <textarea
                           name="comment"
                           id="comment"
                           rows="5"
+                          onChange={handleChange}
                         ></textarea>
-                      </p>
-                      <p className="comment-form-author">
-                        <label>
-                          Name <span className="required">*</span>
-                        </label>
-                        <input type="text" id="author" name="author" />
-                      </p>
-                      <p className="comment-form-email">
-                        <label>
-                          Email <span className="required">*</span>
-                        </label>
-                        <input type="email" id="email" name="email" />
-                      </p>
-                      <p className="comment-form-url">
-                        <label>Website</label>
-                        <input type="url" id="url" name="url" />
-                      </p>
-                      <p className="comment-form-cookies-consent">
-                        <input
-                          type="checkbox"
-                          value="yes"
-                          name="wp-comment-cookies-consent"
-                          id="wp-comment-cookies-consent"
-                        />
-                        <label>
-                          Save my name, email, and website in this browser for
-                          the next time I comment.
-                        </label>
                       </p>
                       <p className="form-submit">
                         <input
@@ -365,7 +264,7 @@ function BlogDetailsContent({ details }) {
                           name="submit"
                           id="submit"
                           className="submit"
-                          value="Post Comment"
+                          value={isSubmitting ? "Posting..." : "Post Comment"}
                         />
                       </p>
                     </form>
@@ -375,7 +274,10 @@ function BlogDetailsContent({ details }) {
             </div>
 
             <div className="col-lg-4 col-md-12">
-              <BlogSideBar categories={details.categories} />
+              <BlogSideBar
+                recent={details.recent}
+                categories={details.categories}
+              />
             </div>
           </div>
         </div>

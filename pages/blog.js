@@ -25,7 +25,7 @@ function Blog2({ posts, categories }) {
             </div>
 
             <div className="col-lg-4 col-md-12">
-              <BlogSideBar categories={categories} />
+              <BlogSideBar recent={posts.slice(0, 5)} categories={categories} />
             </div>
           </div>
         </div>
@@ -38,7 +38,8 @@ function Blog2({ posts, categories }) {
 }
 
 export async function getServerSideProps(pageContext) {
-  const postQuery = encodeURIComponent(`*[_type == "post"]{
+  const postQuery =
+    encodeURIComponent(`*[_type == "post"] | order(_createdAt desc){
     _id, title, excerpt, body, mainImage, slug, publishedAt, "author": author->name
   }`);
 

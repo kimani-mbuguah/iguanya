@@ -37,6 +37,23 @@ export default class MyApp extends App {
     return (
       <>
         <Head>
+          {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-C4YXP6GNQJ"
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-C4YXP6GNQJ', {
+              page_path: window.location.pathname,
+            });
+          `,
+            }}
+          />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
