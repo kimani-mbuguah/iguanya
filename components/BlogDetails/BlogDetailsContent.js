@@ -18,18 +18,30 @@ function BlogDetailsContent({ details }) {
   const [publishDate, setPublishDate] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mappedPosts, setMappedPosts] = useState([]);
 
   useEffect(() => {
-    const client = sanityClient({
-      projectId: "zs1hmjkw",
-      dataset: "production",
-      useCdn: true,
-    });
+    const client = sanityClient(details.sanityConfig);
     const builder = imageUrlBuilder(client);
     setImageUrl(builder.image(details.image));
     const publishedAtObj = new Date(details.publishedAt);
     const momentObj = moment(publishedAtObj);
     setPublishDate(momentObj.format("MMMM Do YYYY, h:mm:ss a"));
+
+    if (details.recent.length > 0) {
+      const imgBuilder = imageUrlBuilder(details.sanityConfig);
+
+      setMappedPosts(
+        details.recent.map((p) => {
+          return {
+            ...p,
+            mainImage: imgBuilder.image(p.mainImage).width(500).height(250),
+          };
+        })
+      );
+    } else {
+      setMappedPosts([]);
+    }
   }, [details.image]);
 
   const handleChange = (e) => {
@@ -42,13 +54,7 @@ function BlogDetailsContent({ details }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const client = sanityClient({
-      projectId: "zs1hmjkw",
-      dataset: "production",
-      token:
-        "skvD7c54B7o2hKpNtt8edriLQxnXJVfIkdADxojhbU7PIgmUck7PLZVyF6X9LHWRjjYsVXpAPTdAvOGAy1VMUD7kDsMNWq94Ogg9ZdI2KEPZhQZqA8GXrWPRWsn5VikMYBOciQnnRGBeGtKlTEf22jb03AuccZodinxjJMG0AA6MIGCFIfFZ",
-      useCdn: false,
-    });
+    const client = sanityClient(details.sanityConfig);
 
     const comment = {
       _type: "comment",
@@ -64,7 +70,6 @@ function BlogDetailsContent({ details }) {
     await client
       .create(comment)
       .then((res) => {
-        console.log(res);
         setIsSubmitting(false);
         toast.success("Comment submitted successfully.", {
           position: "bottom-left",
@@ -275,6 +280,7 @@ function BlogDetailsContent({ details }) {
 
             <div className="col-lg-4 col-md-12">
               <BlogSideBar
+                popularPosts={mappedPosts.slice(0, 3)}
                 recent={details.recent}
                 categories={details.categories}
               />

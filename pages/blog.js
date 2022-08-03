@@ -1,11 +1,40 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
+import sanityClient from "@sanity/client";
+import imageUrlBuilder from "@sanity/image-url";
+import moment from "moment";
 import Navbar from "../components/Layout/Navbar";
 import PageHeader from "../components/Common/PageHeader";
 import BlogCard from "../components/BlogTwo/BlogCard";
 import BlogSideBar from "../components/Blog/BlogSideBar";
 import Footer from "../components/Layout/Footer";
 
-function Blog2({ posts, categories }) {
+function Blog({ posts, categories, sanityConfig }) {
+  const [mappedPosts, setMappedPosts] = useState([]);
+
+  useEffect(() => {
+    if (posts.length > 0) {
+      const imgBuilder = imageUrlBuilder({
+        projectId: sanityConfig.projectId,
+        dataset: sanityConfig.dataset,
+      });
+
+      setMappedPosts(
+        posts.map((p) => {
+          const publishedAtObj = new Date(p.publishedAt);
+          const momentObj = moment(publishedAtObj);
+
+          return {
+            ...p,
+            mainImage: imgBuilder.image(p.mainImage).width(500).height(250),
+            date: momentObj.format("MMMM Do YYYY, h:mm:ss a"),
+          };
+        })
+      );
+    } else {
+      setMappedPosts([]);
+    }
+  }, [posts]);
+
   return (
     <>
       <Navbar />
@@ -21,11 +50,19 @@ function Blog2({ posts, categories }) {
         <div className="container">
           <div className="row">
             <div className="col-lg-8 col-md-12">
-              <BlogCard posts={posts} />
+              <BlogCard posts={mappedPosts} itemsPerPage={2} />
             </div>
 
             <div className="col-lg-4 col-md-12">
-              <BlogSideBar recent={posts.slice(0, 5)} categories={categories} />
+              <BlogSideBar
+                popularPosts={mappedPosts
+                  .sort((a, b) => {
+                    return b.comments.length - a.comments.length;
+                  })
+                  .slice(0, 3)}
+                recent={posts.slice(0, 5)}
+                categories={categories}
+              />
             </div>
           </div>
         </div>
@@ -38,32 +75,46 @@ function Blog2({ posts, categories }) {
 }
 
 export async function getServerSideProps(pageContext) {
-  const postQuery =
-    encodeURIComponent(`*[_type == "post"] | order(_createdAt desc){
-    _id, title, excerpt, body, mainImage, slug, publishedAt, "author": author->name
-  }`);
+  const projectId = process.env.REACT_APP_SANITY_PROJECT_ID;
+  const dataset = process.env.REACT_APP_SANITY_PROJECT_DATASET;
+  const token = process.env.REACT_APP_SANITY_TOKEN;
 
-  const url = `https://zs1hmjkw.api.sanity.io/v1/data/query/production?query=${postQuery}`;
+  const client = sanityClient({
+    projectId: projectId,
+    dataset: dataset,
+    token: token,
+    useCdn: false,
+  });
 
-  const result = await fetch(url).then((res) => res.json());
-  const posts = result.result;
+  const blogPosts = await client.fetch(
+    `{
+      'posts':*[_type == "post"] | order(_createdAt desc){
+        _id, title, excerpt, body, mainImage, slug, publishedAt, "author": author->name,
+        'comments': *[_type == "comment" && post._ref == ^._id && approved == true]{
+          _id, 
+          name, 
+          email, 
+          comment, 
+          _createdAt
+      }
+      },
+      'categories':*[_type == "category"]{title}
+    }`
+  );
 
-  const categoryQuery = encodeURIComponent(`*[_type == "category"]{title}`);
-
-  const categoryUrl = `https://zs1hmjkw.api.sanity.io/v1/data/query/production?query=${categoryQuery}`;
-
-  const categoryResult = await fetch(categoryUrl).then((res) => res.json());
-  const categories = categoryResult.result;
-
-  if (!posts) {
+  if (!blogPosts) {
     return {
       props: { posts: [] },
     };
   } else {
     return {
-      props: { posts: posts, categories: categories },
+      props: {
+        posts: blogPosts.posts,
+        categories: blogPosts.categories,
+        sanityConfig: { projectId: projectId, dataset: dataset },
+      },
     };
   }
 }
 
-export default Blog2;
+export default Blog;

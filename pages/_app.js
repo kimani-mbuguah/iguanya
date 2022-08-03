@@ -12,6 +12,7 @@ import "../node_modules/react-modal-video/css/modal-video.min.css";
 // Global CSS
 import "/styles/style.css";
 import "/styles/responsive.css";
+import "../components/Blog/pagination.css";
 
 import App from "next/app";
 import Head from "next/head";

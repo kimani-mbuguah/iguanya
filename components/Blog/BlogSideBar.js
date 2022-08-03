@@ -22,6 +22,37 @@ class BlogSideBar extends Component {
             </form>
           </div>
 
+          {/* Popular Posts */}
+          <div className="widget widget_posts_thumb">
+            <h3 className="widget-title">Popular Posts</h3>
+            {this.props.popularPosts.length > 0
+              ? this.props.popularPosts.map((post, index) => (
+                  <article className="item" key={index}>
+                    <Link href={`/blog-details/${post.slug.current}`}>
+                      <a className="thumb">
+                        <img
+                          src={post.mainImage}
+                          className="fullimage cover bg2"
+                          role="img"
+                        ></img>
+                      </a>
+                    </Link>
+
+                    <div className="info">
+                      <time>{post.date}</time>
+                      <h4 className="title usmall">
+                        <Link href={`/blog-details/${post.slug.current}`}>
+                          <a>{post.title}</a>
+                        </Link>
+                      </h4>
+                    </div>
+
+                    <div className="clear"></div>
+                  </article>
+                ))
+              : ""}
+          </div>
+
           {/* Categories */}
           <div className="widget widget_categories">
             <h3 className="widget-title">Categories</h3>
@@ -30,8 +61,31 @@ class BlogSideBar extends Component {
               {this.props.categories.length > 0
                 ? this.props.categories.map((category, index) => (
                     <li key={index}>
-                      <Link href="/blog">
+                      <Link href="#">
                         <a>{category.title}</a>
+                      </Link>
+                    </li>
+                  ))
+                : ""}
+            </ul>
+          </div>
+
+          {/* Recent Comments */}
+          <div className="widget widget_recent_comments">
+            <h3 className="widget-title">Recent Comments</h3>
+
+            <ul>
+              {this.props.popularPosts.length > 0
+                ? this.props.popularPosts.map((post, index) => (
+                    <li key={index}>
+                      <span className="comment-author-link">
+                        <Link href={`/blog-details/${post.slug.current}`}>
+                          <a>{post.comments[0].name}</a>
+                        </Link>
+                      </span>
+                      <span className="plr-5">on</span>
+                      <Link href={`/blog-details/${post.slug.current}`}>
+                        <a>{post.title}</a>
                       </Link>
                     </li>
                   ))
@@ -63,17 +117,17 @@ class BlogSideBar extends Component {
             <ul>
               <li>
                 <Link href="#">
-                  <a>May 2019</a>
+                  <a>August 2022</a>
                 </Link>
               </li>
               <li>
                 <Link href="#">
-                  <a>April 2019</a>
+                  <a>July 2022</a>
                 </Link>
               </li>
               <li>
                 <Link href="#">
-                  <a>June 2019</a>
+                  <a>June 2022</a>
                 </Link>
               </li>
             </ul>

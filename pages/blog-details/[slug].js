@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import sanityClient from "@sanity/client";
+import imageUrlBuilder from "@sanity/image-url";
 import Navbar from "../../components/Layout/Navbar";
 import PageHeader from "../../components/Common/PageHeader";
 import BlogDetailsContent from "../../components/BlogDetails/BlogDetailsContent";
@@ -30,62 +32,74 @@ export const getServerSideProps = async (pageContext) => {
     };
   }
 
-  const query = encodeURIComponent(
-    `*[_type == "post" && slug.current == "${pageSlug}"]{
-      _id, 
-      title, 
-      excerpt, 
-      body, 
-      mainImage, 
-      slug, 
-      publishedAt, 
-      "author": author->name,
-      'comments': *[_type == "comment" && post._ref == ^._id && approved == true]{
+  const projectId = process.env.REACT_APP_SANITY_PROJECT_ID;
+  const dataset = process.env.REACT_APP_SANITY_PROJECT_DATASET;
+  const token = process.env.REACT_APP_SANITY_TOKEN;
+
+  const client = sanityClient({
+    projectId: projectId,
+    dataset: dataset,
+    token: token,
+    useCdn: false,
+  });
+
+  const blogPost = await client.fetch(
+    `{
+      'posts':*[_type == "post"] | order(_createdAt desc){
+        _id, title, excerpt, body, mainImage, slug, publishedAt, "author": author->name,
+        'comments': *[_type == "comment" && post._ref == ^._id && approved == true]{
+          _id, 
+          name, 
+          email, 
+          comment, 
+          _createdAt
+      }
+      },
+      'post':*[_type == "post" && slug.current == "${pageSlug}"]{
         _id, 
-        name, 
-        email, 
-        comment, 
-        _createdAt
-    }
+        title, 
+        excerpt, 
+        body, 
+        mainImage, 
+        slug, 
+        publishedAt, 
+        "author": author->name,
+        'comments': *[_type == "comment" && post._ref == ^._id && approved == true]{
+          _id, 
+          name, 
+          email, 
+          comment, 
+          _createdAt
+      }
+      },
+      'categories':*[_type == "category"]{title}
     }`
   );
-  const url = `https://zs1hmjkw.api.sanity.io/v1/data/query/production?query=${query}`;
 
-  const result = await fetch(url).then((res) => res.json());
-  const post = result.result[0];
-
-  const categoryQuery = encodeURIComponent(`*[_type == "category"]{title}`);
-
-  const categoryUrl = `https://zs1hmjkw.api.sanity.io/v1/data/query/production?query=${categoryQuery}`;
-
-  const categoryResult = await fetch(categoryUrl).then((res) => res.json());
-  const categories = categoryResult.result;
-
-  const postsQuery = encodeURIComponent(
-    `*[_type == "post"] | order(_createdAt desc){title,slug}`
-  );
-
-  const postsUrl = `https://zs1hmjkw.api.sanity.io/v1/data/query/production?query=${postsQuery}`;
-
-  const postsResult = await fetch(postsUrl).then((res) => res.json());
-  const posts = postsResult.result;
-
-  if (!post) {
+  if (!blogPost) {
     return {
       notFound: true,
     };
   } else {
     return {
       props: {
-        _id: post._id,
-        body: post.body,
-        title: post.title,
-        image: post.mainImage,
-        publishedAt: post.publishedAt,
-        author: post.author,
-        categories: categories,
-        recent: posts,
-        comments: post.comments,
+        _id: blogPost.post[0]._id,
+        body: blogPost.post[0].body,
+        title: blogPost.post[0].title,
+        image: blogPost.post[0].mainImage,
+        publishedAt: blogPost.post[0].publishedAt,
+        author: blogPost.post[0].author,
+        categories: blogPost.categories,
+        recent: blogPost.posts.sort((a, b) => {
+          return b.comments.length - a.comments.length;
+        }),
+        comments: blogPost.post[0].comments,
+        sanityConfig: {
+          projectId: projectId,
+          dataset: dataset,
+          token: token,
+          useCdn: false,
+        },
       },
     };
   }
