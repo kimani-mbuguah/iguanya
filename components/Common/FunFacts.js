@@ -31,7 +31,7 @@ class FunFacts extends Component {
                       >
                         <CountUp
                           start={0}
-                          end={this.state.didViewCountUp ? 324 : 0}
+                          end={this.state.didViewCountUp ? 45 : 0}
                           duration={3}
                         />
                       </VisibilitySensor>
@@ -79,7 +79,7 @@ class FunFacts extends Component {
                       >
                         <CountUp
                           start={0}
-                          end={this.state.didViewCountUp ? 15 : 0}
+                          end={this.state.didViewCountUp ? 7 : 0}
                           duration={3}
                         />
                       </VisibilitySensor>
@@ -102,14 +102,14 @@ class FunFacts extends Component {
                       >
                         <CountUp
                           start={0}
-                          end={this.state.didViewCountUp ? 48 : 0}
+                          end={this.state.didViewCountUp ? 8 : 0}
                           duration={3}
                         />
                       </VisibilitySensor>
                     </span>
                     <span className="sign-icon">+</span>
                   </h3>
-                  <p>Expert Members</p>
+                  <p>Professionals</p>
                 </div>
               </div>
             </div>

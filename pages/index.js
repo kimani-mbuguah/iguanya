@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import sanityClient from "@sanity/client";
 import Navbar from "../components/Layout/Navbar";
 import Banner from "../components/HomeFive/Banner";
 import OurServices from "../components/HomeFive/OurServices";
@@ -12,7 +13,7 @@ import LatestNewsTwo from "../components/Common/LatestNewsTwo";
 import SubscribeBoxedTwo from "../components/Common/SubscribeBoxedTwo";
 import Footer from "../components/Layout/Footer";
 
-class Index5 extends Component {
+class Index extends Component {
   render() {
     return (
       <>
@@ -20,12 +21,12 @@ class Index5 extends Component {
         <Banner />
         <OurServices />
         <SolutionTwo />
-        <LatestWorks />
+        {/* <LatestWorks /> */}
         <FunFacts />
         <TestimonialsTwo />
         <LetsGetToWork />
-        <PartnerWithTitleTwo />
-        <LatestNewsTwo />
+        {/* <PartnerWithTitleTwo /> */}
+        <LatestNewsTwo details={this.props} />
         <SubscribeBoxedTwo />
         <Footer />
       </>
@@ -33,4 +34,43 @@ class Index5 extends Component {
   }
 }
 
-export default Index5;
+export async function getServerSideProps(pageContext) {
+  const projectId = process.env.REACT_APP_SANITY_PROJECT_ID;
+  const dataset = process.env.REACT_APP_SANITY_PROJECT_DATASET;
+  const token = process.env.REACT_APP_SANITY_TOKEN;
+
+  const client = sanityClient({
+    projectId: projectId,
+    dataset: dataset,
+    token: token,
+    useCdn: false,
+  });
+
+  const blogPosts = await client.fetch(
+    `{
+      'posts':*[_type == "post"] | order(_createdAt desc){
+        _id, title, excerpt, body, mainImage, slug, publishedAt, "author": author->name
+      }
+    }`
+  );
+
+  if (!blogPosts) {
+    return {
+      props: { posts: [] },
+    };
+  } else {
+    return {
+      props: {
+        posts: blogPosts.posts.slice(0, 3),
+        sanityConfig: {
+          projectId: projectId,
+          dataset: dataset,
+          token: token,
+          useCdn: false,
+        },
+      },
+    };
+  }
+}
+
+export default Index;

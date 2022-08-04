@@ -7,42 +7,26 @@ import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
 import BlogSideBar from "/components/Blog/BlogSideBar";
 
-function BlogDetailsContent({ details }) {
-  const initialFormData = Object.freeze({
-    name: "",
-    email: "",
-    comment: "",
-  });
+const initialFormData = Object.freeze({
+  name: "",
+  email: "",
+  comment: "",
+});
 
-  const [formData, updateFormData] = React.useState(initialFormData);
+function BlogDetailsContent({ details }) {
   const [publishDate, setPublishDate] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [mappedPosts, setMappedPosts] = useState([]);
+  const [formData, updateFormData] = React.useState(initialFormData);
 
   useEffect(() => {
     const client = sanityClient(details.sanityConfig);
     const builder = imageUrlBuilder(client);
-    setImageUrl(builder.image(details.image));
     const publishedAtObj = new Date(details.publishedAt);
     const momentObj = moment(publishedAtObj);
     setPublishDate(momentObj.format("MMMM Do YYYY, h:mm:ss a"));
-
-    if (details.recent.length > 0) {
-      const imgBuilder = imageUrlBuilder(details.sanityConfig);
-
-      setMappedPosts(
-        details.recent.map((p) => {
-          return {
-            ...p,
-            mainImage: imgBuilder.image(p.mainImage).width(500).height(250),
-          };
-        })
-      );
-    } else {
-      setMappedPosts([]);
-    }
-  }, [details.image]);
+    setImageUrl(builder.image(details.image));
+  }, [details]);
 
   const handleChange = (e) => {
     updateFormData({
@@ -280,9 +264,10 @@ function BlogDetailsContent({ details }) {
 
             <div className="col-lg-4 col-md-12">
               <BlogSideBar
-                popularPosts={mappedPosts.slice(0, 3)}
+                popularPosts={details.recent.slice(0, 3)}
                 recent={details.recent}
                 categories={details.categories}
+                sanityConfig={details.sanityConfig}
               />
             </div>
           </div>

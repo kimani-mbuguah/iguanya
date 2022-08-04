@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import SanityBlockContent from "@sanity/block-content-to-react";
 import ReactPaginate from "react-paginate";

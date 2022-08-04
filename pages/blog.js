@@ -8,9 +8,8 @@ import BlogCard from "../components/BlogTwo/BlogCard";
 import BlogSideBar from "../components/Blog/BlogSideBar";
 import Footer from "../components/Layout/Footer";
 
-function Blog({ posts, categories, sanityConfig }) {
+function Blog({ posts, popularPosts, categories, sanityConfig }) {
   const [mappedPosts, setMappedPosts] = useState([]);
-
   useEffect(() => {
     if (posts.length > 0) {
       const imgBuilder = imageUrlBuilder({
@@ -55,13 +54,10 @@ function Blog({ posts, categories, sanityConfig }) {
 
             <div className="col-lg-4 col-md-12">
               <BlogSideBar
-                popularPosts={mappedPosts
-                  .sort((a, b) => {
-                    return b.comments.length - a.comments.length;
-                  })
-                  .slice(0, 3)}
+                popularPosts={popularPosts}
                 recent={posts.slice(0, 5)}
                 categories={categories}
+                sanityConfig={sanityConfig}
               />
             </div>
           </div>
@@ -98,6 +94,16 @@ export async function getServerSideProps(pageContext) {
           _createdAt
       }
       },
+      'popularPosts':*[_type == "post"] | order(_createdAt desc){
+        _id, title, excerpt, body, mainImage, slug, publishedAt, "author": author->name,
+        'comments': *[_type == "comment" && post._ref == ^._id && approved == true]{
+          _id, 
+          name, 
+          email, 
+          comment, 
+          _createdAt
+      }
+      },
       'categories':*[_type == "category"]{title}
     }`
   );
@@ -109,9 +115,19 @@ export async function getServerSideProps(pageContext) {
   } else {
     return {
       props: {
+        popularPosts: blogPosts.popularPosts
+          .sort((a, b) => {
+            return b.comments.length - a.comments.length;
+          })
+          .slice(0, 3),
         posts: blogPosts.posts,
         categories: blogPosts.categories,
-        sanityConfig: { projectId: projectId, dataset: dataset },
+        sanityConfig: {
+          projectId: projectId,
+          dataset: dataset,
+          token: token,
+          useCdn: false,
+        },
       },
     };
   }
