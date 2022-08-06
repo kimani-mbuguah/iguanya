@@ -81,11 +81,11 @@ class Footer extends Component {
                         <a>Our Services</a>
                       </Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link href="/projects">
                         <a>Projects</a>
                       </Link>
-                    </li>
+                    </li> */}
                     <li>
                       <Link href="/blog">
                         <a>Blog</a>
