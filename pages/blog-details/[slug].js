@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import sanityClient from "@sanity/client";
-import imageUrlBuilder from "@sanity/image-url";
+import Head from "next/head";
 import Navbar from "../../components/Layout/Navbar";
 import PageHeader from "../../components/Common/PageHeader";
 import BlogDetailsContent from "../../components/BlogDetails/BlogDetailsContent";
@@ -10,6 +10,39 @@ class BlogDetails extends Component {
   render() {
     return (
       <>
+        <Head>
+          {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-C4YXP6GNQJ"
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-C4YXP6GNQJ', {
+              page_path: window.location.pathname,
+            });
+          `,
+            }}
+          />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta
+            name="description"
+            content="We strive to help our clients reach their goals by offering them the perfect combination of technology, expertise, and customer service."
+          />
+          <meta
+            name="keywords"
+            content="Web development, IT Consultancy, Digital Marketing, Mobile App Development, eCommerce Development, IT Solutions, Tax, Transfer Pricing"
+          />
+          <meta name="author" content="Kimani Mbugua" />
+          <title>{this.props.title} - Iguanya</title>
+        </Head>
         <Navbar />
         <PageHeader
           pageTitle={this.props.title}
@@ -72,6 +105,7 @@ export const getServerSideProps = async (pageContext) => {
           _createdAt
       }
       },
+     
       'categories':*[_type == "category"]{title}
     }`
   );
@@ -90,10 +124,13 @@ export const getServerSideProps = async (pageContext) => {
         publishedAt: blogPost.post[0].publishedAt,
         author: blogPost.post[0].author,
         categories: blogPost.categories,
-        recent: blogPost.posts.sort((a, b) => {
-          return b.comments.length - a.comments.length;
-        }),
+        recent: blogPost.posts
+          .sort((a, b) => {
+            return b.comments.length - a.comments.length;
+          })
+          .slice(0, 3),
         comments: blogPost.post[0].comments,
+        // category: blogPost[0].category,
         sanityConfig: {
           projectId: projectId,
           dataset: dataset,

@@ -49,13 +49,13 @@ function Blog({ posts, popularPosts, categories, sanityConfig }) {
         <div className="container">
           <div className="row">
             <div className="col-lg-8 col-md-12">
-              <BlogCard posts={mappedPosts} itemsPerPage={2} />
+              <BlogCard posts={mappedPosts} itemsPerPage={8} />
             </div>
 
             <div className="col-lg-4 col-md-12">
               <BlogSideBar
                 popularPosts={popularPosts}
-                recent={posts.slice(0, 5)}
+                recent={posts.slice(0, 3)}
                 categories={categories}
                 sanityConfig={sanityConfig}
               />

@@ -8,13 +8,14 @@ function BlogCard({ posts, itemsPerPage }) {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+
   useEffect(() => {
-    if (posts.length > 0) {
+    if (posts.length) {
       const endOffset = itemOffset + itemsPerPage;
       setCurrentItems(posts.slice(itemOffset, endOffset));
       setPageCount(Math.ceil(posts.length / itemsPerPage));
     }
-  }, [itemOffset, itemsPerPage]);
+  }, [itemOffset, itemsPerPage, posts]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % posts.length;
@@ -24,8 +25,8 @@ function BlogCard({ posts, itemsPerPage }) {
   return (
     <>
       <div className="row">
-        {posts.length > 0
-          ? posts.map((p, index) => (
+        {currentItems.length > 0
+          ? currentItems.map((p, index) => (
               <div key={index} className="col-lg-6 col-md-6">
                 <div className="single-blog-post">
                   <div className="post-image">
