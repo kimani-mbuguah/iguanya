@@ -8,7 +8,7 @@ import BlogCard from "../components/BlogTwo/BlogCard";
 import BlogSideBar from "../components/Blog/BlogSideBar";
 import Footer from "../components/Layout/Footer";
 
-function Blog({ posts, popularPosts, categories, sanityConfig }) {
+function Blog({ posts, popularPosts, categories, tags, sanityConfig }) {
   const [mappedPosts, setMappedPosts] = useState([]);
   useEffect(() => {
     if (posts.length > 0) {
@@ -34,6 +34,16 @@ function Blog({ posts, popularPosts, categories, sanityConfig }) {
     }
   }, [posts]);
 
+  const filterByValue = (tag) => {
+    const filteredPosts = mappedPosts.filter((post) => {
+      for (let i = 0; i < post.tags.length; i++) {
+        return post.tags[i] == tag;
+      }
+    });
+
+    setMappedPosts(filteredPosts);
+  };
+
   return (
     <>
       <Navbar />
@@ -58,6 +68,8 @@ function Blog({ posts, popularPosts, categories, sanityConfig }) {
                 recent={posts.slice(0, 3)}
                 categories={categories}
                 sanityConfig={sanityConfig}
+                tags={tags}
+                filterByValue={filterByValue}
               />
             </div>
           </div>
@@ -85,7 +97,16 @@ export async function getServerSideProps(pageContext) {
   const blogPosts = await client.fetch(
     `{
       'posts':*[_type == "post"] | order(_createdAt desc){
-        _id, title, excerpt, body, mainImage, slug, publishedAt, "author": author->name,
+        _id, 
+        title, 
+        excerpt, 
+        body, 
+        mainImage, 
+        slug, 
+        publishedAt, 
+        "author": author->name,
+        'categories': categories[]->title,
+        'tags': tags[]->tag,
         'comments': *[_type == "comment" && post._ref == ^._id && approved == true]{
           _id, 
           name, 
@@ -104,7 +125,11 @@ export async function getServerSideProps(pageContext) {
           _createdAt
       }
       },
-      'categories':*[_type == "category"]{title}
+      'categories':*[_type == "category"]{title},
+      'tags':*[_type == "tag"]{
+        tag, 
+        'totalReferences': count(*[_type in ['post'] && references(^._id)])
+      }
     }`
   );
 
@@ -122,6 +147,7 @@ export async function getServerSideProps(pageContext) {
           .slice(0, 3),
         posts: blogPosts.posts,
         categories: blogPosts.categories,
+        tags: blogPosts.tags,
         sanityConfig: {
           projectId: projectId,
           dataset: dataset,

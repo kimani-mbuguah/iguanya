@@ -96,17 +96,22 @@ export const getServerSideProps = async (pageContext) => {
         mainImage, 
         slug, 
         publishedAt, 
-        "author": author->name,
+        'author': author->name,
+        'categories': categories[]->title,
+        'tags': tags[]->tag,
         'comments': *[_type == "comment" && post._ref == ^._id && approved == true]{
           _id, 
           name, 
           email, 
           comment, 
           _createdAt
-      }
+        }
       },
-     
-      'categories':*[_type == "category"]{title}
+      'categories':*[_type == "category"]{title},
+      'tags':*[_type == "tag"]{
+        tag,
+        'totalReferences': count(*[_type in ['post'] && references(^._id)])
+    }
     }`
   );
 
@@ -124,13 +129,15 @@ export const getServerSideProps = async (pageContext) => {
         publishedAt: blogPost.post[0].publishedAt,
         author: blogPost.post[0].author,
         categories: blogPost.categories,
+        tags: blogPost.tags,
         recent: blogPost.posts
           .sort((a, b) => {
             return b.comments.length - a.comments.length;
           })
           .slice(0, 3),
         comments: blogPost.post[0].comments,
-        // category: blogPost[0].category,
+        postCategories: blogPost.post[0].categories,
+        postTags: blogPost.post[0].tags,
         sanityConfig: {
           projectId: projectId,
           dataset: dataset,

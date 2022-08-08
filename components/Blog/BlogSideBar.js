@@ -2,9 +2,21 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import sanityClient from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
+import moment from "moment";
 
-function BlogSideBar({ popularPosts, recent, categories, sanityConfig }) {
+function BlogSideBar({
+  popularPosts,
+  recent,
+  categories,
+  sanityConfig,
+  tags,
+  filterByValue,
+}) {
   const [mappedPosts, setMappedPosts] = useState([]);
+  const [month, setMonth] = useState("");
+  const [lastMonth, setLastMoth] = useState("");
+  const [lastMonthButOne, setLastMonthButOne] = useState("");
+
   useEffect(() => {
     if (popularPosts.length > 0) {
       const client = sanityClient(sanityConfig);
@@ -17,6 +29,17 @@ function BlogSideBar({ popularPosts, recent, categories, sanityConfig }) {
           };
         })
       );
+
+      const date = new Date();
+      const momentObj = moment(date);
+      const lastMonthMomentObj = moment(date.setMonth(date.getMonth() - 1));
+      const lastMonthButOneMomentObj = moment(
+        date.setMonth(date.getMonth() - 1)
+      );
+
+      setMonth(momentObj.format("MMMM YYYY"));
+      setLastMoth(lastMonthMomentObj.format("MMMM YYYY"));
+      setLastMonthButOne(lastMonthButOneMomentObj.format("MMMM YYYY"));
     } else {
       setMappedPosts([]);
     }
@@ -136,17 +159,17 @@ function BlogSideBar({ popularPosts, recent, categories, sanityConfig }) {
           <ul>
             <li>
               <Link href="#">
-                <a>August 2022</a>
+                <a>{month}</a>
               </Link>
             </li>
             <li>
               <Link href="#">
-                <a>July 2022</a>
+                <a>{lastMonth}</a>
               </Link>
             </li>
             <li>
               <Link href="#">
-                <a>June 2022</a>
+                <a>{lastMonthButOne}</a>
               </Link>
             </li>
           </ul>
@@ -157,46 +180,21 @@ function BlogSideBar({ popularPosts, recent, categories, sanityConfig }) {
           <h3 className="widget-title">Tags</h3>
 
           <div className="tagcloud">
-            <Link href="/blog">
-              <a>
-                IT <span className="tag-link-count"> (3)</span>
-              </a>
-            </Link>
-            <Link href="/blog">
-              <a>
-                Taiker <span className="tag-link-count"> (3)</span>
-              </a>
-            </Link>
-            <Link href="/blog#">
-              <a>
-                Games <span className="tag-link-count"> (2)</span>
-              </a>
-            </Link>
-            <Link href="/blog">
-              <a>
-                Fashion <span className="tag-link-count"> (2)</span>
-              </a>
-            </Link>
-            <Link href="/blog">
-              <a>
-                Travel <span className="tag-link-count"> (1)</span>
-              </a>
-            </Link>
-            <Link href="/blog">
-              <a>
-                Smart <span className="tag-link-count"> (1)</span>
-              </a>
-            </Link>
-            <Link href="/blog">
-              <a>
-                Marketing <span className="tag-link-count"> (1)</span>
-              </a>
-            </Link>
-            <Link href="/blog">
-              <a>
-                Tips <span className="tag-link-count"> (2)</span>
-              </a>
-            </Link>
+            {tags.length > 0
+              ? tags.map((tag, index) => (
+                  <a
+                    style={{ cursor: "pointer" }}
+                    key={index}
+                    onClick={() => filterByValue(tag.tag)}
+                  >
+                    {tag.tag}{" "}
+                    <span className="tag-link-count">
+                      {" "}
+                      ({tag.totalReferences})
+                    </span>
+                  </a>
+                ))
+              : ""}
           </div>
         </div>
       </aside>

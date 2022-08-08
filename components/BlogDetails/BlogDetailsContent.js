@@ -120,15 +120,14 @@ function BlogDetailsContent({ details }) {
                     <span>
                       <i className="fas fa-bookmark"></i>
                     </span>
-                    <Link href="/blog-">
-                      <a>Fashion,</a>
-                    </Link>
-                    <Link href="/blog">
-                      <a>Games,</a>
-                    </Link>
-                    <Link href="/blog">
-                      <a>Travel</a>
-                    </Link>
+
+                    {details.tags.length > 0
+                      ? details.tags.map((tag, index) => (
+                          <Link href="/blog" key={index}>
+                            <a>{tag.tag}</a>
+                          </Link>
+                        ))
+                      : ""}
                   </div>
 
                   <div className="article-share">
@@ -268,6 +267,7 @@ function BlogDetailsContent({ details }) {
                 recent={details.recent}
                 categories={details.categories}
                 sanityConfig={details.sanityConfig}
+                tags={details.tags}
               />
             </div>
           </div>
