@@ -12,6 +12,7 @@ import PartnerWithTitleTwo from "../components/Common/Partner/PartnerWithTitleTw
 import LatestNewsTwo from "../components/Common/LatestNewsTwo";
 import SubscribeBoxedTwo from "../components/Common/SubscribeBoxedTwo";
 import Footer from "../components/Layout/Footer";
+import Tradevalue from "../components/HomeTen/TradeValue";
 
 class Index extends Component {
   render() {
@@ -19,6 +20,7 @@ class Index extends Component {
       <>
         <Navbar />
         <Banner />
+        <Tradevalue />
         <OurServices />
         <SolutionTwo />
         {/* <LatestWorks /> */}

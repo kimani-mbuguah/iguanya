@@ -94,7 +94,7 @@ class OurServices extends Component {
             <div className="col-lg-4 col-sm-6">
               <div className="service-card-one bg-white center">
                 <div className="icon">
-                  <i className="bx bx-cart"></i>
+                  <i className="bx bx-network-chart"></i>
                   <i className="bx bxs-badge-check check-icon"></i>
                 </div>
                 <h3>
@@ -113,7 +113,7 @@ class OurServices extends Component {
             <div className="col-lg-4 col-sm-6">
               <div className="service-card-one bg-white center">
                 <div className="icon">
-                  <i className="bx bx-list-check"></i>
+                  <i className="bx bx-bot"></i>
                   <i className="bx bxs-badge-check check-icon"></i>
                 </div>
                 <h3>
@@ -126,6 +126,25 @@ class OurServices extends Component {
                   developing effective automation solutions. We perform business
                   analyzes, prepare documentation and present recommendations
                   for further activities.
+                </p>
+              </div>
+            </div>
+            <div className="col-lg-4 col-sm-6">
+              <div className="service-card-one bg-white center">
+                <div className="icon">
+                  <i className="bx bx-money"></i>
+                  <i className="bx bxs-badge-check check-icon"></i>
+                </div>
+                <h3>
+                  <Link href="/local-and-international-taxes">
+                    <a>Local And International Taxes</a>
+                  </Link>
+                </h3>
+                <p>
+                  We support local and international businesses in complying
+                  with the jurisdictional tax regulations. We assist individuals
+                  and companies in establishment of permanent Establishment
+                  Risks and advice on te best methodologies to mitigatge them.
                 </p>
               </div>
             </div>

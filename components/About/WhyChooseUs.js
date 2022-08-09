@@ -1,41 +1,152 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
 class WhyChooseUs extends Component {
-    render() {
-        return (
-            <>
-                <section className="why-choose-area ptb-100">
-                    <div className="container">
-                        <div className="row align-items-center">
-                            <div className="col-lg-6 col-md-12">
-                                <div className="why-choose-content">
-                                    <span className="sub-title">Why Choose Us</span>
-                                    <h2>The Key To Your Motivation And Success</h2>
-                                    <p>We believe brand interaction is key in communication. Real innovations and a positive customer experience are the heart of successful communication.</p>
+  state = {
+    marketData: [],
+    loading: true,
+  };
 
-                                    <div className="features-text">
-                                        <h4><i className="flaticon-tick"></i> Core Development</h4>
-                                        <p>No fake products and services. The customer is king, their lives and needs are the inspiration.</p>
-                                    </div>
-
-                                    <div className="features-text">
-                                        <h4><i className="flaticon-tick"></i> Define Your Choices</h4>
-                                        <p>No fake products and services. The customer is king, their lives and needs are the inspiration.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-6 col-md-12">
-                                <div className="why-choose-image">
-                                    <img src="/images/why-choose-img1.png" alt="image" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </>
-        );
-    }
+  componentDidMount() {
+    fetch(
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d"
+    )
+      .then((data) => {
+        return data.json();
+      })
+      .then((response) => {
+        this.setState({ marketData: response, loading: false });
+      });
+  }
+  render() {
+    console.log(this.state.marketData);
+    return (
+      <>
+        <section className="why-choose-area pb-70">
+          <div className="container">
+            <div className="row align-items-center">
+              <div className="col-lg-12 col-md-12">
+                <Table className="market-table">
+                  <Thead>
+                    <Tr>
+                      <Th>#</Th>
+                      <Th>Name</Th>
+                      <Th>Price</Th>
+                      <Th>1h%</Th>
+                      <Th>24h%</Th>
+                      <Th>7D%</Th>
+                      <Th>Market Cap</Th>
+                      <Th>24h Volume</Th>
+                      <Th>Circulating Supply</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {this.state.marketData.length > 0 && !this.state.loading
+                      ? this.state.marketData.map((coin, index) => (
+                          <Tr key={index}>
+                            <Td>{index + 1}</Td>
+                            <Td>
+                              <img src={coin.image} alt="image" />
+                              {coin.name} {coin.symbol.toUpperCase()}
+                            </Td>
+                            <Td>
+                              {new Intl.NumberFormat("en-US", {
+                                style: "currency",
+                                currency: "USD",
+                              }).format(coin.current_price)}
+                            </Td>
+                            <Td>
+                              {coin.price_change_percentage_1h_in_currency
+                                .toString()
+                                .substring(0, 1) === "-" ? (
+                                <span className="color-two">
+                                  <i className="bx bx-down-arrow-alt"></i>{" "}
+                                  {coin.price_change_percentage_1h_in_currency
+                                    .toString()
+                                    .substring(0, 6)}
+                                  %
+                                </span>
+                              ) : (
+                                <span>
+                                  <i className="bx bx-up-arrow-alt"></i>{" "}
+                                  {coin.price_change_percentage_1h_in_currency
+                                    .toString()
+                                    .substring(0, 5)}
+                                  %
+                                </span>
+                              )}
+                            </Td>
+                            <Td>
+                              {coin.price_change_percentage_24h_in_currency
+                                .toString()
+                                .substring(0, 1) === "-" ? (
+                                <span className="color-two">
+                                  <i className="bx bx-down-arrow-alt"></i>{" "}
+                                  {coin.price_change_percentage_24h_in_currency
+                                    .toString()
+                                    .substring(0, 6)}
+                                  %
+                                </span>
+                              ) : (
+                                <span>
+                                  <i className="bx bx-up-arrow-alt"></i>{" "}
+                                  {coin.price_change_percentage_24h_in_currency
+                                    .toString()
+                                    .substring(0, 5)}
+                                </span>
+                              )}
+                              %
+                            </Td>
+                            <Td>
+                              {coin.price_change_percentage_7d_in_currency
+                                .toString()
+                                .substring(0, 1) === "-" ? (
+                                <span className="color-two">
+                                  <i className="bx bx-down-arrow-alt"></i>{" "}
+                                  {coin.price_change_percentage_7d_in_currency
+                                    .toString()
+                                    .substring(0, 6)}
+                                  %
+                                </span>
+                              ) : (
+                                <span>
+                                  <i className="bx bx-up-arrow-alt"></i>{" "}
+                                  {coin.price_change_percentage_7d_in_currency
+                                    .toString()
+                                    .substring(0, 5)}
+                                </span>
+                              )}
+                              %
+                            </Td>
+                            <Td>
+                              {new Intl.NumberFormat("en-US", {
+                                style: "currency",
+                                currency: "USD",
+                              }).format(coin.market_cap)}
+                            </Td>
+                            <Td>
+                              {new Intl.NumberFormat("en-US", {
+                                style: "currency",
+                                currency: "USD",
+                              }).format(coin.total_volume)}
+                            </Td>
+                            <Td>
+                              {coin.circulating_supply}{" "}
+                              {coin.symbol.toUpperCase()}
+                            </Td>
+                          </Tr>
+                        ))
+                      : ""}
+                  </Tbody>
+                </Table>
+              </div>
+            </div>
+          </div>
+        </section>
+      </>
+    );
+  }
 }
 
 export default WhyChooseUs;

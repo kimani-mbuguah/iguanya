@@ -11433,6 +11433,46 @@ CS Fun Facts Area CSS
   font-size: 16.8px;
   font-weight: 500;
 }
+/*================================================
+Cypto currency markets
+=================================================*/
+
+.market-table {
+  border-collapse: collapse;
+  font-size: 0.9em;
+   font-family: sans-serif;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.market-table thead tr {
+  background-color: #0D6CD6;
+  color: #ffffff;
+  text-align: left;
+}
+.market-table th,
+.market-table td {
+    padding: 12px 15px;
+}
+.market-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.market-table tbody tr td img { 
+  width: 15px; 
+  height: 15px;
+  margin: 4px;
+ }
+
+.market-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.market-table tbody tr:last-of-type {
+  border-bottom: 2px solid #0D6CD6;
+}
+.market-table tbody tr.active-row {
+  font-weight: bold;
+  color: #0D6CD6;
+}
 
 /*================================================
 Leading Technology Area CSS

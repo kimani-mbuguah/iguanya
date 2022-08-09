@@ -381,7 +381,7 @@ class ServicesOverview extends Component {
           <div className="overview-box it-overview">
             <div className="overview-image">
               <div className="image">
-                <img src="/images/android.svg" alt="image" />
+                <img src="/images/smarthome.svg" alt="image" />
               </div>
             </div>
 
@@ -430,6 +430,72 @@ class ServicesOverview extends Component {
                     </a>
                   </Link>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="overview-box it-overview">
+            <div className="overview-content">
+              <div className="content right-content">
+                <h2>Local And Intenational Taxes</h2>
+                <p>
+                  We support local and international businesses in complying
+                  with the jurisdictional tax regulations. We assist individuals
+                  and companies in establishment of permanent Establishment
+                  Risks and advice on te best methodologies to mitigatge them.
+                </p>
+
+                <ul className="features-list">
+                  <li>
+                    <span>
+                      <i className="bx bxs-badge-check"></i>
+                      Filing Individual Income Taxes
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      <i className="bx bxs-badge-check"></i>
+                      Filing Corporate Income Taxes
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      <i className="bx bxs-badge-check"></i>
+                      Preparation of tax computation
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      <i className="bx bxs-badge-check"></i>
+                      Application of Tax Compliance Certificates (TCCs)
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      <i className="bx bxs-badge-check"></i>
+                      Transfer Pricing policy documentation
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      <i className="bx bxs-badge-check"></i>
+                      Permanent establishment risk assessment
+                    </span>
+                  </li>
+                </ul>
+
+                <div className="rm-btn">
+                  <Link href="/local-and-international-taxes">
+                    <a className="default-btn">
+                      Read More <span></span>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="overview-image">
+              <div className="image">
+                <img src="/images/creditcard.svg" alt="image" />
               </div>
             </div>
           </div>
