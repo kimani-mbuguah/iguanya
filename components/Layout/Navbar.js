@@ -120,6 +120,11 @@ class Navbar extends Component {
                         <a className="nav-link">Blog</a>
                       </Link>
                     </li>
+                    <li className="nav-item">
+                      <Link href="/crypto-markets" activeClassName="active">
+                        <a className="nav-link">Crypto Market</a>
+                      </Link>
+                    </li>
 
                     <li className="nav-item">
                       <Link href="/contact" activeClassName="active">
