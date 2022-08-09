@@ -10,7 +10,7 @@ class WhyChooseUs extends Component {
 
   componentDidMount() {
     fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d"
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h%2C7d"
     )
       .then((data) => {
         return data.json();
@@ -33,7 +33,7 @@ class WhyChooseUs extends Component {
                       <Th>#</Th>
                       <Th>Name</Th>
                       <Th>Price</Th>
-                      <Th>1h%</Th>
+                      <Th>ATH</Th>
                       <Th>24h%</Th>
                       <Th>7D%</Th>
                       <Th>Market Cap</Th>
@@ -57,31 +57,17 @@ class WhyChooseUs extends Component {
                               }).format(coin.current_price)}
                             </Td>
                             <Td>
-                              {coin.price_change_percentage_1h_in_currency
-                                .toString()
-                                .substring(0, 1) === "-" ? (
-                                <span className="color-two">
-                                  <i className="bx bx-down-arrow-alt"></i>{" "}
-                                  {coin.price_change_percentage_1h_in_currency
-                                    .toString()
-                                    .substring(0, 6)}
-                                  %
-                                </span>
-                              ) : (
-                                <span>
-                                  <i className="bx bx-up-arrow-alt"></i>{" "}
-                                  {coin.price_change_percentage_1h_in_currency
-                                    .toString()
-                                    .substring(0, 5)}
-                                  %
-                                </span>
-                              )}
+                              {new Intl.NumberFormat("en-US", {
+                                style: "currency",
+                                currency: "USD",
+                              }).format(coin.ath)}
                             </Td>
+
                             <Td>
                               {coin.price_change_percentage_24h_in_currency
                                 .toString()
                                 .substring(0, 1) === "-" ? (
-                                <span className="color-two">
+                                <span style={{ color: "#FF6C6C" }}>
                                   <i className="bx bx-down-arrow-alt"></i>{" "}
                                   {coin.price_change_percentage_24h_in_currency
                                     .toString()
@@ -89,20 +75,19 @@ class WhyChooseUs extends Component {
                                   %
                                 </span>
                               ) : (
-                                <span>
+                                <span style={{ color: "#76BAAF" }}>
                                   <i className="bx bx-up-arrow-alt"></i>{" "}
                                   {coin.price_change_percentage_24h_in_currency
                                     .toString()
-                                    .substring(0, 5)}
+                                    .substring(0, 6)}
                                 </span>
                               )}
-                              %
                             </Td>
                             <Td>
                               {coin.price_change_percentage_7d_in_currency
                                 .toString()
                                 .substring(0, 1) === "-" ? (
-                                <span className="color-two">
+                                <span style={{ color: "#FF6C6C" }}>
                                   <i className="bx bx-down-arrow-alt"></i>{" "}
                                   {coin.price_change_percentage_7d_in_currency
                                     .toString()
@@ -110,14 +95,13 @@ class WhyChooseUs extends Component {
                                   %
                                 </span>
                               ) : (
-                                <span>
+                                <span style={{ color: "#76BAAF" }}>
                                   <i className="bx bx-up-arrow-alt"></i>{" "}
                                   {coin.price_change_percentage_7d_in_currency
                                     .toString()
-                                    .substring(0, 5)}
+                                    .substring(0, 6)}
                                 </span>
                               )}
-                              %
                             </Td>
                             <Td>
                               {new Intl.NumberFormat("en-US", {

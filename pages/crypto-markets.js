@@ -19,14 +19,9 @@ class About extends Component {
           pageTitle="Crypto Currencies Market"
           breadcrumbTextOne="Home"
           breadcrumbUrl="/"
-          breadcrumbTextTwo="Cryto Currencies"
+          breadcrumbTextTwo="Crypto Currencies"
         />
         <WhyChooseUs />
-        <Solution />
-        <Testimonials />
-        <OurTeam />
-        <SubscribeFluid />
-        <PartnerWithTitle />
         <Footer />
       </>
     );
