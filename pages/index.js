@@ -15,6 +15,45 @@ import Footer from "../components/Layout/Footer";
 import Tradevalue from "../components/HomeTen/TradeValue";
 
 class Index extends Component {
+  state = {
+    details: [],
+    loading: true,
+  };
+
+  componentDidMount() {
+    const client = sanityClient({
+      projectId: this.props.sanityConfig.projectId,
+      dataset: this.props.sanityConfig.dataset,
+      token: this.props.sanityConfig.token,
+      useCdn: false,
+    });
+
+    client
+      .fetch(
+        `{
+      'posts':*[_type == "post"] | order(_createdAt desc){
+        _id, title, excerpt, body, mainImage, slug, publishedAt, "author": author->name
+      }
+    }`
+      )
+      .then((blogPosts) => {
+        if (blogPosts) {
+          this.setState({
+            details: {
+              posts: blogPosts.posts.slice(0, 3),
+              sanityConfig: {
+                projectId: this.props.sanityConfig.projectId,
+                dataset: this.props.sanityConfig.dataset,
+                token: this.props.sanityConfig.token,
+                useCdn: false,
+              },
+            },
+            loading: false,
+          });
+        }
+      });
+  }
+
   render() {
     return (
       <>
@@ -28,7 +67,11 @@ class Index extends Component {
         <TestimonialsTwo />
         <LetsGetToWork />
         {/* <PartnerWithTitleTwo /> */}
-        <LatestNewsTwo details={this.props} />
+        {this.state.details && !this.state.loading ? (
+          <LatestNewsTwo details={this.state.details} />
+        ) : (
+          ""
+        )}
         <SubscribeBoxedTwo />
         <Footer />
       </>
@@ -41,38 +84,16 @@ export async function getServerSideProps(pageContext) {
   const dataset = process.env.REACT_APP_SANITY_PROJECT_DATASET;
   const token = process.env.REACT_APP_SANITY_TOKEN;
 
-  const client = sanityClient({
-    projectId: projectId,
-    dataset: dataset,
-    token: token,
-    useCdn: false,
-  });
-
-  const blogPosts = await client.fetch(
-    `{
-      'posts':*[_type == "post"] | order(_createdAt desc){
-        _id, title, excerpt, body, mainImage, slug, publishedAt, "author": author->name
-      }
-    }`
-  );
-
-  if (!blogPosts) {
-    return {
-      props: { posts: [] },
-    };
-  } else {
-    return {
-      props: {
-        posts: blogPosts.posts.slice(0, 3),
-        sanityConfig: {
-          projectId: projectId,
-          dataset: dataset,
-          token: token,
-          useCdn: false,
-        },
+  return {
+    props: {
+      sanityConfig: {
+        projectId: projectId,
+        dataset: dataset,
+        token: token,
+        useCdn: false,
       },
-    };
-  }
+    },
+  };
 }
 
 export default Index;

@@ -301,6 +301,35 @@ class Tradevalue extends Component {
                     )}
                   </p>
                 </div>
+                <div className="value-trade-card">
+                  <img
+                    src="/images/cryptocurrency-home/value-trade/PESA.png"
+                    alt="image"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <p>
+                    <b>Pesabase (PESA)</b> ${this.state.coins.pesabase.usd}{" "}
+                    {this.state.coins.pesabase.usd_24h_change
+                      .toString()
+                      .substring(0, 1) === "-" ? (
+                      <span className="color-two">
+                        <i className="bx bx-down-arrow-alt"></i>{" "}
+                        {this.state.coins.pesabase.usd_24h_change
+                          .toString()
+                          .substring(0, 6)}
+                        %
+                      </span>
+                    ) : (
+                      <span>
+                        <i className="bx bx-up-arrow-alt"></i>{" "}
+                        {this.state.coins.pesabase.usd_24h_change
+                          .toString()
+                          .substring(0, 5)}
+                        %
+                      </span>
+                    )}
+                  </p>
+                </div>
               </OwlCarousel>
             ) : (
               ""

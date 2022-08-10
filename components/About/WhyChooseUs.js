@@ -20,7 +20,6 @@ class WhyChooseUs extends Component {
       });
   }
   render() {
-    console.log(this.state.marketData);
     return (
       <>
         <section className="why-choose-area pb-70">
