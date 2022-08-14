@@ -205,7 +205,7 @@ class ServicesOverview extends Component {
                   <li>
                     <span>
                       <i className="bx bxs-badge-check"></i>
-                      Software Porfolio COnsulting
+                      Software Porfolio Consulting
                     </span>
                   </li>
                 </ul>

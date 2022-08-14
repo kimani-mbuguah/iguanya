@@ -105,7 +105,7 @@ class OurServices extends Component {
                 <p>
                   Solutions for businesses to approach commerce, trading, supply
                   chain and identity management through transparency and
-                  security, powered by blockchain and smart contracts.
+                  security, powered by the blockchain and smart contracts.
                 </p>
               </div>
             </div>
@@ -124,8 +124,8 @@ class OurServices extends Component {
                 <p>
                   We support you in identifying processes for robotization and
                   developing effective automation solutions. We perform business
-                  analyzes, prepare documentation and present recommendations
-                  for further activities.
+                  analysis, prepare documentation, develop robots and present
+                  recommendations for further activities.
                 </p>
               </div>
             </div>
@@ -142,9 +142,9 @@ class OurServices extends Component {
                 </h3>
                 <p>
                   We support local and international businesses in complying
-                  with the jurisdictional tax regulations. We assist individuals
-                  and companies in establishment of permanent Establishment
-                  Risks and advice on te best methodologies to mitigatge them.
+                  with the jurisdictional tax regulations. Reach out to us for
+                  establishment of Permanent Establishment Risks and advise on
+                  the best methodologies to mitigate them.
                 </p>
               </div>
             </div>

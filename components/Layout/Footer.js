@@ -125,6 +125,7 @@ class Footer extends Component {
                         <a>Robotic Process Automation</a>
                       </Link>
                     </li>
+
                     <li>
                       <Link href="/web-development">
                         <a>Web Development</a>
@@ -138,6 +139,11 @@ class Footer extends Component {
                     <li>
                       <Link href="/digital-marketing">
                         <a>Digital Marketing</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/local-and-international-taxes ">
+                        <a>Local and International Taxes</a>
                       </Link>
                     </li>
                   </ul>

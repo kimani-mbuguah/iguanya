@@ -11450,7 +11450,7 @@ Cypto currency markets
 }
 .market-table th,
 .market-table td {
-    padding: 12px 15px;
+    padding: 30px 15px;
 }
 .market-table tbody tr {
   border-bottom: 1px solid #dddddd;
@@ -11467,12 +11467,73 @@ Cypto currency markets
 }
 
 .market-table tbody tr:last-of-type {
-  border-bottom: 2px solid #0D6CD6;
+  border-bottom: 4px solid #0D6CD6;
 }
 .market-table tbody tr.active-row {
   font-weight: bold;
   color: #0D6CD6;
 }
+
+/* inspired by: https://css-tricks.com/responsive-data-tables/ */
+.responsiveTable {
+  width: 100%;
+}
+
+.responsiveTable td .tdBefore {
+  display: none;
+}
+
+
+
+@media screen and (max-width: 40em) {
+  /*
+    Force table elements to not behave like tables anymore
+    Hide table headers (but not display: none;, for accessibility)
+  */
+
+  .responsiveTable table,
+  .responsiveTable thead,
+  .responsiveTable tbody,
+  .responsiveTable th,
+  .responsiveTable td,
+  .responsiveTable tr {
+    display: block;
+  }
+
+  .responsiveTable thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .responsiveTable tbody tr {
+    padding: .25em;
+  }
+
+  .responsiveTable td.pivoted {
+    /* Behave like a "row" */
+    position: relative;
+    padding-left: calc(50% + 10px) !important;
+    text-align: left !important;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+
+  .responsiveTable td .tdBefore {
+    /* Now like a table header */
+    position: absolute;
+    display: block;
+
+    /* Top/left values mimic padding */
+    left: 1rem;
+    width: calc(50% - 20px);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    text-align: left !important;
+    font-weight: 600;
+  }
+}
+
 
 /*================================================
 Leading Technology Area CSS

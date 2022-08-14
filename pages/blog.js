@@ -103,7 +103,6 @@ function Blog({ sanityConfig }) {
         }
       });
   }, [sanityConfig]);
-
   const filterByValue = (tag) => {
     const filteredPosts = mappedPosts.filter((post) => {
       for (let i = 0; i < post.tags.length; i++) {
@@ -114,7 +113,8 @@ function Blog({ sanityConfig }) {
     setMappedPosts(filteredPosts);
   };
 
-  console.log(categories);
+  console.log(mappedPosts);
+
   return (
     <>
       <Navbar />

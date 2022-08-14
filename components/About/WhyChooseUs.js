@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
-import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+//import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
 class WhyChooseUs extends Component {
   state = {
@@ -47,7 +47,8 @@ class WhyChooseUs extends Component {
                             <Td>{index + 1}</Td>
                             <Td>
                               <img src={coin.image} alt="image" />
-                              {coin.name} {coin.symbol.toUpperCase()}
+                              <strong>{coin.name}</strong>{" "}
+                              {coin.symbol.toUpperCase()}
                             </Td>
                             <Td>
                               {new Intl.NumberFormat("en-US", {
@@ -115,7 +116,9 @@ class WhyChooseUs extends Component {
                               }).format(coin.total_volume)}
                             </Td>
                             <Td>
-                              {coin.circulating_supply}{" "}
+                              {new Intl.NumberFormat().format(
+                                coin.circulating_supply
+                              )}{" "}
                               {coin.symbol.toUpperCase()}
                             </Td>
                           </Tr>

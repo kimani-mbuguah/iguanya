@@ -74,7 +74,11 @@ class Tradevalue extends Component {
                     style={{ width: "22px", height: "22px" }}
                   />
                   <p>
-                    <b>Bitcoin (BTC)</b> ${this.state.coins.bitcoin.usd}{" "}
+                    <b>Bitcoin (BTC)</b>{" "}
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(this.state.coins.bitcoin.usd)}{" "}
                     {this.state.coins.bitcoin.usd_24h_change
                       .toString()
                       .substring(0, 1) === "-" ? (
@@ -103,7 +107,11 @@ class Tradevalue extends Component {
                     style={{ width: "22px", height: "22px" }}
                   />
                   <p>
-                    <b>Ethereum (ETH)</b> ${this.state.coins.ethereum.usd}{" "}
+                    <b>Ethereum (ETH)</b>
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(this.state.coins.ethereum.usd)}{" "}
                     {this.state.coins.ethereum.usd_24h_change
                       .toString()
                       .substring(0, 1) === "-" ? (
@@ -132,7 +140,11 @@ class Tradevalue extends Component {
                     style={{ width: "22px", height: "22px" }}
                   />
                   <p>
-                    <b>Tether (USDT)</b> ${this.state.coins.tether.usd}{" "}
+                    <b>Tether (USDT)</b>
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(this.state.coins.tether.usd)}{" "}
                     {this.state.coins.tether.usd_24h_change
                       .toString()
                       .substring(0, 1) === "-" ? (
@@ -161,8 +173,11 @@ class Tradevalue extends Component {
                     style={{ width: "22px", height: "22px" }}
                   />
                   <p>
-                    <b>Binance Coin (BNB)</b> $
-                    {this.state.coins.binancecoin.usd}{" "}
+                    <b>Binance Coin (BNB)</b>{" "}
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(this.state.coins.binancecoin.usd)}{" "}
                     {this.state.coins.binancecoin.usd_24h_change
                       .toString()
                       .substring(0, 1) === "-" ? (
@@ -191,7 +206,11 @@ class Tradevalue extends Component {
                     style={{ width: "22px", height: "22px" }}
                   />
                   <p>
-                    <b>Ripple (XRP)</b> ${this.state.coins.ripple.usd}{" "}
+                    <b>Ripple (XRP)</b>{" "}
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(this.state.coins.ripple.usd)}{" "}
                     {this.state.coins.ripple.usd_24h_change
                       .toString()
                       .substring(0, 1) === "-" ? (
@@ -220,7 +239,11 @@ class Tradevalue extends Component {
                     style={{ width: "22px", height: "22px" }}
                   />
                   <p>
-                    <b>Cardano (ADA)</b> ${this.state.coins.cardano.usd}{" "}
+                    <b>Cardano (ADA)</b>
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(this.state.coins.cardano.usd)}{" "}
                     {this.state.coins.cardano.usd_24h_change
                       .toString()
                       .substring(0, 1) === "-" ? (
@@ -249,7 +272,11 @@ class Tradevalue extends Component {
                     style={{ width: "22px", height: "22px" }}
                   />
                   <p>
-                    <b>Dogecoin (DOGE)</b> ${this.state.coins.dogecoin.usd}{" "}
+                    <b>Dogecoin (DOGE)</b>{" "}
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(this.state.coins.dogecoin.usd)}{" "}
                     {this.state.coins.dogecoin.usd_24h_change
                       .toString()
                       .substring(0, 1) === "-" ? (
@@ -279,7 +306,11 @@ class Tradevalue extends Component {
                     style={{ width: "22px", height: "22px" }}
                   />
                   <p>
-                    <b>Monero (XMR)</b> ${this.state.coins.monero.usd}{" "}
+                    <b>Monero (XMR)</b>{" "}
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(this.state.coins.monero.usd)}{" "}
                     {this.state.coins.monero.usd_24h_change
                       .toString()
                       .substring(0, 1) === "-" ? (
@@ -308,7 +339,11 @@ class Tradevalue extends Component {
                     style={{ width: "22px", height: "22px" }}
                   />
                   <p>
-                    <b>Pesabase (PESA)</b> ${this.state.coins.pesabase.usd}{" "}
+                    <b>Pesabase (PESA)</b>{" "}
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(this.state.coins.pesabase.usd)}{" "}
                     {this.state.coins.pesabase.usd_24h_change
                       .toString()
                       .substring(0, 1) === "-" ? (

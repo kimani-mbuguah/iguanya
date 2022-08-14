@@ -87,42 +87,42 @@ class Banner extends Component {
                     >
                       <div className="animate-image">
                         <img
-                          src="/images/it-banner/web-development.svg"
+                          src="/images/banner-image/markus-spiske.jpg"
                           alt="Web development"
                         />
                       </div>
                       <div className="animate-image">
                         <img
-                          src="/images/it-banner/consultancy.svg"
+                          src="/images/banner-image/nathan-dumlao.jpg"
                           alt="IT consultancy"
                         />
                       </div>
                       <div className="animate-image">
                         <img
-                          src="/images/it-banner/android-development.svg"
+                          src="/images/banner-image/sarah-dorweiler.jpg"
                           alt="Android development"
                         />
                       </div>
                       <div className="animate-image">
                         <img
-                          src="/images/it-banner/solution.svg"
+                          src="/images/banner-image/art-rachen.jpg"
                           alt="IT solutions"
                         />
                       </div>
                       <div className="animate-image">
                         <img
-                          src="/images/it-banner/ecommerce-development.svg"
+                          src="/images/banner-image/thisisengineering.jpg"
                           alt="Ecommerce development"
                         />
                       </div>
                       <div className="animate-image">
                         <img
-                          src="/images/it-banner/marketing.svg"
+                          src="/images/banner-image/walling.jpg"
                           alt="Digital marketing"
                         />
                       </div>
                       <div className="animate-image">
-                        <img src="/images/it-banner/tax.svg" alt="Tax" />
+                        <img src="/images/banner-image/axville.jpg" alt="Tax" />
                       </div>
                     </OwlCarousel>
                   ) : (

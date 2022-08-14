@@ -55,17 +55,14 @@ class WebDevelopmentContent extends Component {
                   </h4>
                   <p>
                     All HTML5 applications built by iguanya are secure and
-                    sustainable, and can be easily scaled as needed. Our HTML5
+                    sustainable, and can be easily scaled as needed. Our
                     solutions are cross-platform, working seamlessly on and
-                    across any device or software platform. HTML5 solutions
-                    created by iguanya's HTML5 experts are secure and
-                    sustainable, and they can be maintained and scaled as
-                    needed. We build web or mobile applications that meets your
-                    unique user, business, industry, and/or vertical
-                    requirement. Our expert HTML5 developers start by evaluating
-                    your business and IT needs to deliver an HTML5 development
-                    solution that is both quick and cost-effective to meet your
-                    goals and deadlines.
+                    across any device or software platform. We build web or
+                    mobile applications that meets your unique user, business,
+                    industry, and/or vertical requirement. Our experts start by
+                    evaluating your business and IT needs to deliver an HTML5
+                    development solution that is both quick and cost-effective
+                    to meet your goals and deadlines.
                   </p>
                 </div>
 
@@ -80,7 +77,7 @@ class WebDevelopmentContent extends Component {
                     adjusting to and delivering an optimal experience on any
                     device where they are viewed from, resulting in a fantastic
                     user experience on desktops, laptops, tablets, and
-                    smartphones. Every website created by iguanya employs
+                    smartphones. Every website created by Iguanya employs
                     responsive web design, fitting perfectly to each user's
                     device.
                   </p>
@@ -114,8 +111,7 @@ class WebDevelopmentContent extends Component {
                     infrastructure in some respects. They need upkeep,
                     monitoring, and maintenance to function optimally.It is
                     usually simple to prevent websites from crashing by planning
-                    in advance and recovering speedily if the worst occurs.
-                    However, if you have planned properly, it will work. Our
+                    in advance and recovering speedily if the worst occurs. Our
                     monitoring services monitor your website's performance
                     regularly and look for any issues that might arise. If the
                     worst occurs, our team responds within fifteen minutes,
