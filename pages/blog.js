@@ -11,6 +11,8 @@ import Footer from "../components/Layout/Footer";
 function Blog({ sanityConfig }) {
   const [mappedPosts, setMappedPosts] = useState([]);
   const [popularPosts, setPopularPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [originalPosts, setOriginalPosts] = useState([]);
   const [recent, setRecent] = useState([]);
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
@@ -97,23 +99,39 @@ function Blog({ sanityConfig }) {
                 };
               })
             );
+
+            setOriginalPosts(
+              blogPosts.posts.map((p) => {
+                const publishedAtObj = new Date(p.publishedAt);
+                const momentObj = moment(publishedAtObj);
+
+                return {
+                  ...p,
+                  mainImage: imgBuilder
+                    .image(p.mainImage)
+                    .width(500)
+                    .height(250),
+                  date: momentObj.format("MMMM Do YYYY, h:mm:ss a"),
+                };
+              })
+            );
           } else {
             setMappedPosts([]);
           }
         }
       });
   }, [sanityConfig]);
-  const filterByValue = (tag) => {
+  const filterByValue = async (tag) => {
+    await setMappedPosts();
+    console.log(originalPosts);
     const filteredPosts = mappedPosts.filter((post) => {
-      for (let i = 0; i < post.tags.length; i++) {
-        return post.tags[i] == tag;
+      if (post.tags.includes(tag)) {
+        return post.tags.includes(tag);
       }
     });
 
     setMappedPosts(filteredPosts);
   };
-
-  console.log(mappedPosts);
 
   return (
     <>

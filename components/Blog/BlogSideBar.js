@@ -185,7 +185,11 @@ function BlogSideBar({
                   <a
                     style={{ cursor: "pointer" }}
                     key={index}
-                    onClick={() => filterByValue(tag.tag)}
+                    onClick={() =>
+                      tag.totalReferences > 0
+                        ? filterByValue(tag.tag)
+                        : console.log("no posts")
+                    }
                   >
                     {tag.tag}{" "}
                     <span className="tag-link-count">
