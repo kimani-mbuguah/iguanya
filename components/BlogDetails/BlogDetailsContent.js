@@ -5,6 +5,18 @@ import imageUrlBuilder from "@sanity/image-url";
 import SanityBlockContent from "@sanity/block-content-to-react";
 import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TelegramShareButton,
+  TelegramIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+} from "next-share";
 import BlogSideBar from "/components/Blog/BlogSideBar";
 
 const initialFormData = Object.freeze({
@@ -76,6 +88,7 @@ function BlogDetailsContent({ details }) {
         });
       });
   };
+
   return (
     <>
       <div className="blog-area blog-ptb-100">
@@ -120,46 +133,54 @@ function BlogDetailsContent({ details }) {
                     <span>
                       <i className="fas fa-bookmark"></i>
                     </span>
-
-                    {details.tags.length > 0
-                      ? details.tags.map((tag, index) => (
-                          <Link href="/blog" key={index}>
-                            <a>{tag.tag}</a>
-                          </Link>
-                        ))
-                      : ""}
+                    <Link href="/blog">
+                      <a>{details.postCategories[0]}</a>
+                    </Link>
                   </div>
-
                   <div className="article-share">
                     <ul className="social">
                       <li>
                         <span>Share:</span>
                       </li>
                       <li>
-                        <a href="https://www.facebook.com/" target="_blank">
-                          <i className="fab fa-facebook-f"></i>
-                        </a>
+                        <FacebookShareButton
+                          url={`https://iguanya.com/blog-details/${details.slug}/`}
+                          quote={details.title}
+                        >
+                          <FacebookIcon size={24} round />
+                        </FacebookShareButton>
                       </li>
                       <li>
-                        <Link href="https://www.twitter.com/">
-                          <a target="_blank">
-                            <i className="fab fa-twitter"></i>
-                          </a>
-                        </Link>
+                        <TwitterShareButton
+                          url={`https://iguanya.com/blog-details/${details.slug}/`}
+                          title={details.title}
+                        >
+                          <TwitterIcon size={24} round />
+                        </TwitterShareButton>
                       </li>
                       <li>
-                        <Link href="https://www.linkedin.com/">
-                          <a target="_blank">
-                            <i className="fab fa-linkedin-in"></i>
-                          </a>
-                        </Link>
+                        <LinkedinShareButton
+                          url={`https://iguanya.com/blog-details/${details.slug}/`}
+                        >
+                          <LinkedinIcon size={24} round />
+                        </LinkedinShareButton>
                       </li>
                       <li>
-                        <Link href="https://www.instagram.com/">
-                          <a target="_blank">
-                            <i className="fab fa-instagram"></i>
-                          </a>
-                        </Link>
+                        <TelegramShareButton
+                          url={`https://iguanya.com/blog-details/${details.slug}/`}
+                          title={details.title}
+                        >
+                          <TelegramIcon size={24} round />
+                        </TelegramShareButton>
+                      </li>
+                      <li>
+                        <WhatsappShareButton
+                          url={`https://iguanya.com/blog-details/${details.slug}/`}
+                          title={details.title}
+                          separator=" :: "
+                        >
+                          <WhatsappIcon size={24} round />
+                        </WhatsappShareButton>
                       </li>
                     </ul>
                   </div>

@@ -13,9 +13,7 @@ function BlogSideBar({
   filterByValue,
 }) {
   const [mappedPosts, setMappedPosts] = useState([]);
-  const [month, setMonth] = useState("");
-  const [lastMonth, setLastMoth] = useState("");
-  const [lastMonthButOne, setLastMonthButOne] = useState("");
+  const [searchPhrase, setSearchPhrase] = useState("");
 
   useEffect(() => {
     if (popularPosts.length > 0) {
@@ -29,33 +27,31 @@ function BlogSideBar({
           };
         })
       );
-
-      const date = new Date();
-      const momentObj = moment(date);
-      const lastMonthMomentObj = moment(date.setMonth(date.getMonth() - 1));
-      const lastMonthButOneMomentObj = moment(
-        date.setMonth(date.getMonth() - 1)
-      );
-
-      setMonth(momentObj.format("MMMM YYYY"));
-      setLastMoth(lastMonthMomentObj.format("MMMM YYYY"));
-      setLastMonthButOne(lastMonthButOneMomentObj.format("MMMM YYYY"));
     } else {
       setMappedPosts([]);
     }
   }, [popularPosts]);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    filterByValue(capitalize(searchPhrase));
+  };
+
+  const capitalize = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
   return (
     <>
       <aside className="widget-area" id="secondary">
         {/* Search */}
         <div className="widget widget_search">
-          <form className="search-form">
+          <form className="search-form" onSubmit={handleSubmit}>
             <label>
               <input
                 type="search"
                 className="search-field"
                 placeholder="Search..."
+                onChange={(e) => setSearchPhrase(e.target.value)}
               />
             </label>
             <button type="submit">
@@ -103,9 +99,14 @@ function BlogSideBar({
             {categories.length > 0
               ? categories.map((category, index) => (
                   <li key={index}>
-                    <Link href="#">
-                      <a>{category.title}</a>
-                    </Link>
+                    <a
+                      style={{ cursor: "pointer" }}
+                      onClick={() =>
+                        category ? filterByValue(category.title) : ""
+                      }
+                    >
+                      {category.title}
+                    </a>
                   </li>
                 ))
               : ""}
@@ -152,29 +153,6 @@ function BlogSideBar({
           </ul>
         </div>
 
-        {/* Archives */}
-        <div className="widget widget_archive">
-          <h3 className="widget-title">Archives</h3>
-
-          <ul>
-            <li>
-              <Link href="#">
-                <a>{month}</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="#">
-                <a>{lastMonth}</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="#">
-                <a>{lastMonthButOne}</a>
-              </Link>
-            </li>
-          </ul>
-        </div>
-
         {/* Tags */}
         <div className="widget widget_tag_cloud">
           <h3 className="widget-title">Tags</h3>
@@ -186,9 +164,7 @@ function BlogSideBar({
                     style={{ cursor: "pointer" }}
                     key={index}
                     onClick={() =>
-                      tag.totalReferences > 0
-                        ? filterByValue(tag.tag)
-                        : console.log("no posts")
+                      tag.totalReferences > 0 ? filterByValue(tag.tag) : ""
                     }
                   >
                     {tag.tag}{" "}

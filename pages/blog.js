@@ -12,7 +12,6 @@ function Blog({ sanityConfig }) {
   const [mappedPosts, setMappedPosts] = useState([]);
   const [popularPosts, setPopularPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
-  const [originalPosts, setOriginalPosts] = useState([]);
   const [recent, setRecent] = useState([]);
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
@@ -99,38 +98,18 @@ function Blog({ sanityConfig }) {
                 };
               })
             );
-
-            setOriginalPosts(
-              blogPosts.posts.map((p) => {
-                const publishedAtObj = new Date(p.publishedAt);
-                const momentObj = moment(publishedAtObj);
-
-                return {
-                  ...p,
-                  mainImage: imgBuilder
-                    .image(p.mainImage)
-                    .width(500)
-                    .height(250),
-                  date: momentObj.format("MMMM Do YYYY, h:mm:ss a"),
-                };
-              })
-            );
           } else {
             setMappedPosts([]);
           }
         }
       });
   }, [sanityConfig]);
-  const filterByValue = async (tag) => {
-    await setMappedPosts();
-    console.log(originalPosts);
-    const filteredPosts = mappedPosts.filter((post) => {
-      if (post.tags.includes(tag)) {
-        return post.tags.includes(tag);
-      }
-    });
 
-    setMappedPosts(filteredPosts);
+  const filterByValue = async (tag) => {
+    const filteredItems = mappedPosts.filter((post) => {
+      return post.tags.includes(tag) || post.categories.includes(tag);
+    });
+    setFilteredPosts(filteredItems);
   };
 
   return (
@@ -149,7 +128,11 @@ function Blog({ sanityConfig }) {
           {mappedPosts.length > 0 ? (
             <div className="row">
               <div className="col-lg-8 col-md-12">
-                <BlogCard posts={mappedPosts} itemsPerPage={8} />
+                {filteredPosts.length > 0 ? (
+                  <BlogCard posts={filteredPosts} itemsPerPage={6} />
+                ) : (
+                  <BlogCard posts={mappedPosts} itemsPerPage={6} />
+                )}
               </div>
 
               <div className="col-lg-4 col-md-12">

@@ -41,7 +41,7 @@ class BlogDetails extends Component {
             content="Web development, IT Consultancy, Digital Marketing, Mobile App Development, eCommerce Development, IT Solutions, Tax, Transfer Pricing"
           />
           <meta name="author" content="Kimani Mbugua" />
-          <title>{this.props.title} - Iguanya</title>
+          <title>Iguanya - Make it happen</title>
         </Head>
         <Navbar />
         <PageHeader
@@ -130,6 +130,7 @@ export const getServerSideProps = async (pageContext) => {
         author: blogPost.post[0].author,
         categories: blogPost.categories,
         tags: blogPost.tags,
+        slug: pageSlug,
         recent: blogPost.posts
           .sort((a, b) => {
             return b.comments.length - a.comments.length;
